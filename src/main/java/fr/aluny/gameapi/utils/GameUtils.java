@@ -1,0 +1,168 @@
+package fr.aluny.gameapi.utils;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.Player;
+
+public class GameUtils {
+
+    private static final Random RANDOM = new Random();
+
+    public static void dropExperience(Location location, int experience) {
+        if (experience <= 0)
+            return;
+
+        ExperienceOrb experienceOrb = Objects.requireNonNull(location.getWorld()).spawn(location, ExperienceOrb.class);
+        experienceOrb.setExperience(experience);
+    }
+
+    public static void broadcastSound(Sound sound, float volume, float pitch) {
+        Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, volume, pitch));
+    }
+
+    public static void broadcastSound(String sound, float volume, float pitch) {
+        Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, volume, pitch));
+    }
+
+    public static String getDistanceBetweenLocations(Location firstLocation, Location secondLocation) {
+        if (firstLocation.getWorld() == secondLocation.getWorld()) {
+            double distancez;
+            double xp = firstLocation.getBlockX();
+            double zp = firstLocation.getBlockZ();
+            double xl = secondLocation.getBlockX();
+            double zl = secondLocation.getBlockZ();
+            double distancex = xp - xl;
+
+            if (distancex < 0.0) {
+                distancex = -distancex;
+            }
+            if ((distancez = zp - zl) < 0.0) {
+                distancez = -distancez;
+            }
+
+            double distance = Math.sqrt(Math.pow(distancex, 2.0) + Math.pow(distancez, 2.0));
+
+            return "" + (int) distance;
+        }
+        return "?";
+    }
+
+    public static String getDistanceBetweenPlayerAndLocation(Player player, Location location) {
+        return getDistanceBetweenLocations(player.getLocation(), location);
+    }
+
+    public static String getArrowCharByAngle(double angle) {
+        String c = "";
+        if (angle == -2.0) {
+            c = "";
+        } else if (angle == -1.0) {
+            c = "✖";
+        } else if (angle < 22.5 && angle >= 0.0 || angle > 337.5) {
+            c = "⬆";
+        } else if (angle < 67.5 && angle > 22.5) {
+            c = "⬈";
+        } else if (angle < 112.5 && angle > 67.5) {
+            c = "➡";
+        } else if (angle < 157.5 && angle > 112.5) {
+            c = "⬊";
+        } else if (angle < 202.5 && angle > 157.5) {
+            c = "⬇";
+        } else if (angle < 247.5 && angle > 202.5) {
+            c = "⬋";
+        } else if (angle < 292.5 && angle > 247.5) {
+            c = "⬅";
+        } else if (angle < 337.5 && angle > 292.5) {
+            c = "⬉";
+        }
+        return c;
+    }
+
+    public static double getAngleBetweenPlayerAndLocation(Player p, Location Loc) {
+        Location Locp = p.getLocation();
+        if (Locp.getWorld() == Loc.getWorld()) {
+            if (Locp.getBlockX() != Loc.getBlockX() || Locp.getBlockZ() != Loc.getBlockZ()) {
+                double xp = Locp.getBlockX();
+                double zp = Locp.getBlockZ();
+                double xl = Loc.getBlockX();
+                double zl = Loc.getBlockZ();
+                double distancex = xp - xl;
+                double distancecx = distancex < 0.0 ? -distancex : distancex;
+                double distancez = zp - zl;
+                double distancecz = distancez < 0.0 ? -distancez : distancez;
+                double angle = 180.0 * Math.atan(distancecz / distancecx) / 3.141;
+
+                if (distancex < 0.0 || distancez < 0.0) {
+                    if (distancex < 0.0 && distancez >= 0.0) {
+                        angle = 90.0 - angle + 90.0;
+                    } else if (distancex <= 0.0 && distancez < 0.0) {
+                        angle += 180.0;
+                    } else if (distancex > 0.0) { // distancez < 0.0 when reached
+                        angle = 90.0 - angle + 270.0;
+                    }
+                }
+                if ((angle += 270.0) >= 360.0) {
+                    angle -= 360.0;
+                }
+                if ((angle -= p.getEyeLocation().getYaw() + 180.0f) <= 0.0) {
+                    angle += 360.0;
+                }
+                if (angle <= 0.0) {
+                    angle += 360.0;
+                }
+                return angle;
+            }
+            return -1.0;
+        }
+        return -2.0;
+    }
+
+
+    public static String getArrowCharByAngleBetweenPlayerAndLocation(Player player, Location location) {
+        return getArrowCharByAngle(getAngleBetweenPlayerAndLocation(player, location));
+    }
+
+    public static String getArrowCharAndDistanceBetweenPlayerAndLocation(Player player, Location location) {
+        String arrowChar = getArrowCharByAngleBetweenPlayerAndLocation(player, location);
+        return (arrowChar.isEmpty() ? "" : arrowChar + " ") + getDistanceBetweenPlayerAndLocation(player, location);
+    }
+
+    public static World createVoidWorld(String name) {
+        return new WorldCreator(name).generator("Game").createWorld();
+    }
+
+    public static <T> Optional<T> getRandomElement(List<T> list) {
+        return list.isEmpty() ? Optional.empty() : Optional.of(list.get(RANDOM.nextInt(list.size())));
+    }
+
+    public static <T> Optional<T> getRandomElement(T[] array) {
+        return array.length == 0 ? Optional.empty() : Optional.of(array[RANDOM.nextInt(array.length)]);
+    }
+
+    public static <T> Optional<T> getRandomElementExcept(List<T> list, T except) {
+        return getRandomElementExcept(list, Collections.singletonList(except));
+    }
+
+    public static <T> Optional<T> getRandomElementExcept(T[] array, T except) {
+        return getRandomElementExcept(array, Collections.singletonList(except));
+    }
+
+    public static <T> Optional<T> getRandomElementExcept(List<T> list, List<T> except) {
+        return getRandomElement(list.stream().filter(t -> !except.contains(t)).collect(Collectors.toList()));
+    }
+
+    public static <T> Optional<T> getRandomElementExcept(T[] array, List<T> except) {
+        return getRandomElement(Arrays.stream(array).filter(t -> !except.contains(t)).collect(Collectors.toList()));
+    }
+}
+
