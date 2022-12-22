@@ -6,6 +6,7 @@ import fr.aluny.gameapi.command.CommandService;
 import fr.aluny.gameapi.message.MessageService;
 import fr.aluny.gameapi.player.GamePlayerService;
 import fr.aluny.gameapi.player.PlayerService;
+import fr.aluny.gameapi.scoreboard.ScoreboardService;
 import fr.aluny.gameapi.scoreboard.team.ScoreboardTeamService;
 import fr.aluny.gameapi.timer.RunnableHelper;
 import fr.aluny.gameapi.timer.TimerService;
@@ -31,6 +32,8 @@ public interface ServiceManager {
     PlayerService getPlayerService();
 
     SchematicService getSchematicService();
+
+    ScoreboardService getScoreboardService();
 
     ScoreboardTeamService getScoreboardTeamService();
 

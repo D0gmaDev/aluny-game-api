@@ -33,7 +33,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot:1.19-R0.1-SNAPSHOT'
     compileOnly 'io.projectreactor:reactor-core:3.4.24'
 
-    implementation "de.studiocode.invui:InvUI:0.8.2"
+    implementation "de.studiocode.invui:InvUI:0.10.1"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
     testImplementation 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
