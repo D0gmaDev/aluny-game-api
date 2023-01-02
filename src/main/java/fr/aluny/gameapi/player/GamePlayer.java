@@ -19,4 +19,6 @@ public interface GamePlayer extends OfflineGamePlayer {
 
     void setScoreboard(PlayerScoreboard scoreboard);
 
+    boolean isVanished();
+
 }

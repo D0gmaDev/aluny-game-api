@@ -4,8 +4,10 @@ import fr.aluny.gameapi.anchor.AnchorService;
 import fr.aluny.gameapi.chat.ChatService;
 import fr.aluny.gameapi.command.CommandService;
 import fr.aluny.gameapi.message.MessageService;
+import fr.aluny.gameapi.moderation.VanishService;
 import fr.aluny.gameapi.player.GamePlayerService;
-import fr.aluny.gameapi.player.PlayerService;
+import fr.aluny.gameapi.player.PlayerAccountService;
+import fr.aluny.gameapi.player.rank.RankService;
 import fr.aluny.gameapi.scoreboard.ScoreboardService;
 import fr.aluny.gameapi.scoreboard.team.ScoreboardTeamService;
 import fr.aluny.gameapi.timer.RunnableHelper;
@@ -29,7 +31,9 @@ public interface ServiceManager {
 
     MessageService getMessageService();
 
-    PlayerService getPlayerService();
+    PlayerAccountService getPlayerAccountService();
+
+    RankService getRankService();
 
     SchematicService getSchematicService();
 
@@ -42,6 +46,8 @@ public interface ServiceManager {
     TranslationService getTranslationService();
 
     ValueService getValueService();
+
+    VanishService getVanishService();
 
     RunnableHelper getRunnableHelper();
 
