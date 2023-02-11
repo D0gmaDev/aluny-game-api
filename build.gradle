@@ -1,7 +1,9 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
+def pluginName = "game-api"
 group 'fr.aluny'
 version '1.0-SNAPSHOT'
 
@@ -9,6 +11,8 @@ compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+def giteaToken = ext.alunyGiteaToken
 
 repositories {
     mavenLocal()
@@ -37,4 +41,29 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
     testImplementation 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
+}
+
+publishing {
+    repositories {
+        maven {
+            credentials(HttpHeaderCredentials) {
+                name = "Authorization"
+                value = "token $giteaToken"
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+            url("https://gitea.elt.elity.fr/api/packages/aluny/maven")
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            groupId group
+            artifactId pluginName
+            version "0.1"
+
+            artifact jar
+        }
+    }
 }
