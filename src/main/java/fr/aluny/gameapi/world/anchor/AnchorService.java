@@ -1,4 +1,4 @@
-package fr.aluny.gameapi.anchor;
+package fr.aluny.gameapi.world.anchor;
 
 import fr.aluny.gameapi.service.Service;
 import java.util.List;

@@ -1,4 +1,4 @@
-package fr.aluny.gameapi.anchor;
+package fr.aluny.gameapi.world.anchor;
 
 import org.bukkit.Location;
 
