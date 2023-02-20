@@ -10,4 +10,6 @@ public interface PlayerAccountService extends Service {
 
     Optional<PlayerAccount> getPlayerAccount(UUID uuid);
 
+    Optional<PlayerAccount> getPlayerAccountByName(String name);
+
 }
