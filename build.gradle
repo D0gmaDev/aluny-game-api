@@ -5,7 +5,7 @@ plugins {
 
 def pluginName = "game-api"
 group 'fr.aluny'
-version '0.1-SNAPSHOT'
+version '0.2-SNAPSHOT'
 
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
@@ -29,7 +29,7 @@ repositories {
     }
 
     maven {
-        url 'https://repo.xenondevs.xyz/releases'
+        url = 'https://repo.xenondevs.xyz/releases'
     }
 }
 
@@ -61,7 +61,7 @@ publishing {
         maven(MavenPublication) {
             groupId group
             artifactId pluginName
-            version "0.1"
+            version "0.2"
 
             artifact jar
         }
