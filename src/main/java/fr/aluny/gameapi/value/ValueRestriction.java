@@ -1,8 +1,6 @@
 package fr.aluny.gameapi.value;
 
 import java.util.Objects;
-import reactor.util.function.Tuple2;
-import reactor.util.function.Tuples;
 
 public class ValueRestriction<T> {
 
@@ -12,10 +10,6 @@ public class ValueRestriction<T> {
     public ValueRestriction(RestrictionType restrictionType, T value) {
         this.restrictionType = restrictionType;
         this.value = value;
-    }
-
-    public Tuple2<RestrictionType, T> getRestriction() {
-        return Tuples.of(restrictionType, value);
     }
 
     public boolean isType(RestrictionType type) {

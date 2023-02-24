@@ -2,7 +2,6 @@ package fr.aluny.gameapi.chat;
 
 import fr.aluny.gameapi.service.Service;
 import java.util.UUID;
-import reactor.core.publisher.MonoSink;
 
 public interface ChatService extends Service {
 
@@ -22,7 +21,7 @@ public interface ChatService extends Service {
 
     void unregisterChatProcessor(String prefix);
 
-    void addChatListener(UUID uuid, MonoSink<String> callback);
+    void addChatListener(UUID uuid, ChatCallback callback);
 
     void cancelChatListener(UUID uuid);
 

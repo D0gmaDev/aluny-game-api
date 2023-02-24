@@ -11,8 +11,8 @@ public class ChatUtils {
     private final static int     CENTER_PX     = 160;
     private static final Pattern COLOR_PATTERN = Pattern.compile("<c:#([a-fA-F0-9]{6})>");
 
-    public static String colorize(String source){
-       return COLOR_PATTERN.matcher(source).replaceAll(matchResult -> ChatColor.of("#" + matchResult.group(1)).toString());
+    public static String colorize(String source) {
+        return COLOR_PATTERN.matcher(source).replaceAll(matchResult -> ChatColor.of("#" + matchResult.group(1)).toString());
     }
 
     public static String centerMessage(String message) {

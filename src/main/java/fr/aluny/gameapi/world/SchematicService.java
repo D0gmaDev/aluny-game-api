@@ -10,5 +10,5 @@ public interface SchematicService extends Service {
 
     Schematic loadSchematic(InputStream inputStream);
 
-    InputStream getSchematicFromRessources(String name, Plugin plugin);
+    InputStream getSchematicStreamFromResources(String name, Plugin plugin);
 }

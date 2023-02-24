@@ -2,6 +2,7 @@ package fr.aluny.gameapi.translation;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -9,20 +10,22 @@ import java.util.stream.Collectors;
 
 public class Locale {
 
-
     private static final Random RANDOM = new Random();
 
     private final String              code;
     private final boolean             defaultLocale;
-    private final Map<String, String> translations;
+    private final Map<String, String> translations = new HashMap<>();
 
     private final TranslationService translationService;
 
-    public Locale(String code, boolean defaultLocale, TranslationService translationService, Map<String, String> translations) {
+    public Locale(String code, boolean defaultLocale, TranslationService translationService) {
         this.code = code;
         this.defaultLocale = defaultLocale;
-        this.translations = translations;
         this.translationService = translationService;
+    }
+
+    public void addTranslations(Map<String, String> translations) {
+        this.translations.putAll(translations);
     }
 
     public List<TranslationPair> getAllTranslationsStartingWith(String prefix) {
@@ -81,5 +84,13 @@ public class Locale {
 
     public record TranslationPair(String key, String value) {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Locale{" +
+                "code='" + code + '\'' +
+                ", defaultLocale=" + defaultLocale +
+                '}';
     }
 }
