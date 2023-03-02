@@ -18,7 +18,7 @@ public class TimeUtils {
 
     private static final Pattern DURATION_PATTERN = Pattern.compile("^([0-9]+)(ms|s|m|h|d|j|w|mo|y)$", Pattern.CASE_INSENSITIVE);
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss VV", Locale.FRENCH).withZone(ZoneId.of("CET"));
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss", Locale.FRENCH).withZone(ZoneId.of("CET"));
 
     /**
      * Creates a {@link TemporalAmount} from an input string, ranging from milliseconds to years.
@@ -64,36 +64,44 @@ public class TimeUtils {
 
     public static String format(TemporalAmount temporalAmount) {
         if (temporalAmount instanceof Duration duration) {
+            if (duration.isZero())
+                return "∅";
+
             List<String> parts = new ArrayList<>();
             long days = duration.toDaysPart();
             if (days > 0) {
                 parts.add(plural(days, "day"));
             }
             int hours = duration.toHoursPart();
-            if (hours > 0 || !parts.isEmpty()) {
+            if (hours > 0) {
                 parts.add(plural(hours, "hour"));
             }
             int minutes = duration.toMinutesPart();
-            if (minutes > 0 || !parts.isEmpty()) {
+            if (minutes > 0) {
                 parts.add(plural(minutes, "minute"));
             }
             int seconds = duration.toSecondsPart();
-            parts.add(plural(seconds, "second"));
+            if (seconds > 0) {
+                parts.add(plural(seconds, "second"));
+            }
             return String.join(" ", parts);
         }
 
         if (temporalAmount instanceof Period period) {
+            if (period.isZero())
+                return "∅";
+
             List<String> parts = new ArrayList<>();
             int years = period.getYears();
             if (years > 0) {
                 parts.add(plural(years, "year"));
             }
             int months = period.getMonths();
-            if (months > 0 || !parts.isEmpty()) {
+            if (months > 0) {
                 parts.add(plural(months, "month"));
             }
             int days = period.getDays();
-            if (days > 0 || !parts.isEmpty()) {
+            if (days > 0) {
                 parts.add(plural(days, "day"));
             }
             return String.join(" ", parts);
