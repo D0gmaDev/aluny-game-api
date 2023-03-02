@@ -1,7 +1,7 @@
 package fr.aluny.gameapi.chat;
 
-public interface ChatProcessor {
+import java.util.function.Consumer;
 
-    void accept(ProcessedChat event);
+public interface ChatProcessor extends Consumer<ProcessedChat> {
 
 }
