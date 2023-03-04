@@ -62,6 +62,10 @@ public class TimeUtils {
         return DATE_TIME_FORMATTER.withLocale(locale).format(date);
     }
 
+    public static String formatDateToCET(TemporalAccessor date) {
+        return DATE_TIME_FORMATTER.format(date);
+    }
+
     public static String format(TemporalAmount temporalAmount) {
         if (temporalAmount instanceof Duration duration) {
             if (duration.isZero())
