@@ -1,39 +1,41 @@
 package fr.aluny.gameapi.chat;
 
+import fr.aluny.gameapi.player.GamePlayer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.bukkit.entity.Player;
 
 public class ProcessedChat {
 
-    private Player sender;
-    private String globalMessage;
-    private Map<UUID, String> messageByPlayer = new HashMap<>();
+    private String messageContent;
+
+    private final GamePlayer        sender;
+    private final Map<UUID, String> contentForPlayer = new HashMap<>();
+
     private boolean cancelled = false;
 
-    public ProcessedChat(Player sender, String globalMessage) {
+    public ProcessedChat(GamePlayer sender, String messageContent) {
         this.sender = sender;
-        this.globalMessage = globalMessage;
+        this.messageContent = messageContent;
     }
 
-    public String getGlobalMessage() {
-        return this.globalMessage;
+    public String getMessageContent() {
+        return this.messageContent;
     }
 
-    public void setGlobalMessage(String globalMessage) {
-        this.globalMessage = globalMessage;
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
     }
 
-    public Map<UUID, String> getMessageByPlayer() {
-        return this.messageByPlayer;
+    public void setContentForPlayer(UUID uuid, String message) {
+        this.contentForPlayer.put(uuid, message);
     }
 
-    public void addMessageByPlayer(UUID uuid, String message) {
-        this.messageByPlayer.put(uuid, message);
+    public String getContentForPlayer(UUID uuid) {
+        return this.contentForPlayer.getOrDefault(uuid, this.messageContent);
     }
 
-    public Player getSender() {
+    public GamePlayer getSender() {
         return this.sender;
     }
 

@@ -7,19 +7,19 @@ public interface ChatService extends Service {
 
     void registerDefaultChatPreProcessor(ChatPreProcessor chatPreProcessor);
 
-    void registerChatPreProcessor(String prefix, ChatPreProcessor chatPreProcessor);
+    void registerChatPreProcessor(char prefix, ChatPreProcessor chatPreProcessor);
 
     void setDefaultChatProcessor(ChatProcessor chatProcessor);
 
-    void setChatProcessor(String prefix, ChatProcessor chatProcessor);
+    void setChatProcessor(char prefix, ChatProcessor chatProcessor);
 
-    void unregisterAllChatPreProcessor(String prefix);
+    void unregisterAllChatPreProcessor(char prefix);
 
-    void unregisterChatPreProcessor(String prefix, ChatPreProcessor chatPreProcessor);
+    void unregisterChatPreProcessor(char prefix, ChatPreProcessor chatPreProcessor);
 
     void unregisterDefaultChatProcessor();
 
-    void unregisterChatProcessor(String prefix);
+    void unregisterChatProcessor(char prefix);
 
     void addChatListener(UUID uuid, ChatCallback callback);
 

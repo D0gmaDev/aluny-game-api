@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 public class GameUtils {
@@ -163,6 +164,11 @@ public class GameUtils {
 
     public static <T> Optional<T> getRandomElementExcept(T[] array, List<T> except) {
         return getRandomElement(Arrays.stream(array).filter(t -> !except.contains(t)).collect(Collectors.toList()));
+    }
+
+    public static List<String> getOnlinePlayersPrefixed(String prefix) {
+        String lowerPrefix = prefix.toLowerCase();
+        return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).filter(s -> s.toLowerCase().startsWith(lowerPrefix)).toList();
     }
 }
 
