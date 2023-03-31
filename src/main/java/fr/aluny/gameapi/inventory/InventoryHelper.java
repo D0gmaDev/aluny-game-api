@@ -10,6 +10,9 @@ import org.bukkit.Material;
 
 public class InventoryHelper {
 
+    /**
+     * This method should not be called outside of Game.
+     */
     public static void load() {
         Structure.addGlobalIngredient('#', new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).setDisplayName("§r"));
 
@@ -27,13 +30,9 @@ public class InventoryHelper {
 
         @Override
         public ItemProvider getItemProvider(PagedGUI gui) {
-            ItemBuilder builder = new ItemBuilder(Material.RED_STAINED_GLASS_PANE);
-            builder.setDisplayName("§7Page précédente")
-                    .addLoreLines(gui.hasPageBefore()
-                            ? "§7Aller à la page §e" + gui.getCurrentPageIndex() + "§7/§e" + gui.getPageAmount()
-                            : "§cVous êtes déjà à la première page");
+            return new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setDisplayName("§7Page précédente")
+                    .addLoreLines(gui.hasPageBefore() ? "§7Aller à la page §e" + gui.getCurrentPageIndex() + "§7/§e" + gui.getPageAmount() : "§cVous êtes déjà à la première page");
 
-            return builder;
         }
 
     }
@@ -46,13 +45,8 @@ public class InventoryHelper {
 
         @Override
         public ItemProvider getItemProvider(PagedGUI gui) {
-            ItemBuilder builder = new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE);
-            builder.setDisplayName("§7Page suivante")
-                    .addLoreLines(gui.hasNextPage()
-                            ? "§7Aller à la page §e" + (gui.getCurrentPageIndex() + 2) + "§7/§e" + gui.getPageAmount()
-                            : "§cVous êtes déjà à la dernière page");
-
-            return builder;
+            return new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).setDisplayName("§7Page suivante")
+                    .addLoreLines(gui.hasNextPage() ? "§7Aller à la page §e" + (gui.getCurrentPageIndex() + 2) + "§7/§e" + gui.getPageAmount() : "§cVous êtes déjà à la dernière page");
         }
 
     }
