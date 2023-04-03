@@ -1,6 +1,8 @@
 package fr.aluny.gameapi.utils;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -20,35 +22,23 @@ public class ChatUtils {
 
         int halvedMessageSize = messagePxSize / 2;
         int toCompensate = CENTER_PX - halvedMessageSize;
-        int spaceLength = Chars.SPACE.length + 1;
-        int compensated = 0;
+        int spaceLength = Char.SPACE.length + 1;
 
-        StringBuilder sb = new StringBuilder();
-        while (compensated < toCompensate) {
-            sb.append(" ");
-            compensated += spaceLength;
-        }
-
-        return sb + message;
+        return " ".repeat(toCompensate / spaceLength) + message;
     }
 
     public static BaseComponent centerMessage(BaseComponent... components) {
         int messagePxSize = Arrays.stream(components).map(baseComponent -> baseComponent.toPlainText().toCharArray()).mapToInt(ChatUtils::getMessagePxSize).sum();
 
-        messagePxSize += Chars.SPACE.length * 5 * (components.length - 1);
+        messagePxSize += Char.SPACE.length * 5 * (components.length - 1);
 
         int halvedMessageSize = messagePxSize / 2;
         int toCompensate = CENTER_PX - halvedMessageSize;
-        int spaceLength = Chars.SPACE.length + 1;
-        int compensated = 0;
+        int spaceLength = Char.SPACE.length + 1;
 
-        StringBuilder sb = new StringBuilder();
-        while (compensated < toCompensate) {
-            sb.append(" ");
-            compensated += spaceLength;
-        }
+        String compensation = " ".repeat(toCompensate / spaceLength);
 
-        TextComponent component = new TextComponent(sb.toString());
+        TextComponent component = new TextComponent(compensation);
         TextComponent empty = new TextComponent("     ");
         component.setClickEvent(null);
         component.setHoverEvent(null);
@@ -73,7 +63,7 @@ public class ChatUtils {
     public static boolean canFit(BaseComponent... components) {
         int messagePxSize = Arrays.stream(components).map(baseComponent -> baseComponent.toPlainText().toCharArray()).mapToInt(ChatUtils::getMessagePxSize).sum();
 
-        messagePxSize += Chars.SPACE.length * 5 * (components.length - 1);
+        messagePxSize += Char.SPACE.length * 5 * (components.length - 1);
         return messagePxSize <= CENTER_PX * 2 - 10;
     }
 
@@ -89,7 +79,7 @@ public class ChatUtils {
                 previousCode = false;
                 isBold = c == 'l' || c == 'L';
             } else {
-                Chars dFI = Chars.getDefaultFontInfo(c);
+                Char dFI = Char.getByCharacter(c);
                 messagePxSize += isBold ? dFI.getBoldLength() : dFI.length;
                 messagePxSize++;
             }
@@ -97,7 +87,7 @@ public class ChatUtils {
         return messagePxSize;
     }
 
-    private enum Chars {
+    private enum Char {
         A('A', 5),
         a('a', 5),
         B('B', 5),
@@ -200,19 +190,25 @@ public class ChatUtils {
         private final char character;
         private final int  length;
 
-        Chars(char character, int length) {
+        private final static Map<Character, Char> BY_CHAR = new HashMap<>();
+
+        static {
+            for (Char value : values()) {
+                BY_CHAR.put(value.character, value);
+            }
+        }
+
+        private static Char getByCharacter(char character) {
+            return BY_CHAR.getOrDefault(character, DEFAULT);
+        }
+
+        Char(char character, int length) {
             this.character = character;
             this.length = length;
         }
 
         private int getBoldLength() {
-            if (this == Chars.SPACE)
-                return this.length;
-            return this.length + 1;
-        }
-
-        private static Chars getDefaultFontInfo(char c) {
-            return Arrays.stream(values()).filter(ch -> ch.character == c).findAny().orElse(DEFAULT);
+            return this == Char.SPACE ? this.length : this.length + 1;
         }
     }
 }
