@@ -1,11 +1,6 @@
 package fr.aluny.gameapi.utils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,6 +14,7 @@ import org.bukkit.entity.Player;
 public class GameUtils {
 
     private static final Random RANDOM = new Random();
+    private static final double PI     = 3.141;
 
     public static void dropExperience(Location location, int experience) {
         if (experience <= 0)
@@ -37,26 +33,14 @@ public class GameUtils {
     }
 
     public static String getDistanceBetweenLocations(Location firstLocation, Location secondLocation) {
-        if (firstLocation.getWorld() == secondLocation.getWorld()) {
-            double distancez;
-            double xp = firstLocation.getBlockX();
-            double zp = firstLocation.getBlockZ();
-            double xl = secondLocation.getBlockX();
-            double zl = secondLocation.getBlockZ();
-            double distancex = xp - xl;
+        if (firstLocation.getWorld() != secondLocation.getWorld())
+            return "?";
 
-            if (distancex < 0.0) {
-                distancex = -distancex;
-            }
-            if ((distancez = zp - zl) < 0.0) {
-                distancez = -distancez;
-            }
+        double xDistance = Math.abs(secondLocation.getX() - firstLocation.getX());
+        double zDistance = Math.abs(secondLocation.getZ() - firstLocation.getZ());
 
-            double distance = Math.sqrt(Math.pow(distancex, 2.0) + Math.pow(distancez, 2.0));
-
-            return "" + (int) distance;
-        }
-        return "?";
+        double distance = Math.sqrt((xDistance * xDistance) + (zDistance * zDistance));
+        return String.valueOf((int) distance);
     }
 
     public static String getDistanceBetweenPlayerAndLocation(Player player, Location location) {
@@ -64,70 +48,72 @@ public class GameUtils {
     }
 
     public static String getArrowCharByAngle(double angle) {
-        String c = "";
         if (angle == -2.0) {
-            c = "";
+            return "";
         } else if (angle == -1.0) {
-            c = "✖";
+            return "✖";
         } else if (angle < 22.5 && angle >= 0.0 || angle > 337.5) {
-            c = "⬆";
+            return "⬆";
         } else if (angle < 67.5 && angle > 22.5) {
-            c = "⬈";
+            return "⬈";
         } else if (angle < 112.5 && angle > 67.5) {
-            c = "➡";
+            return "➡";
         } else if (angle < 157.5 && angle > 112.5) {
-            c = "⬊";
+            return "⬊";
         } else if (angle < 202.5 && angle > 157.5) {
-            c = "⬇";
+            return "⬇";
         } else if (angle < 247.5 && angle > 202.5) {
-            c = "⬋";
+            return "⬋";
         } else if (angle < 292.5 && angle > 247.5) {
-            c = "⬅";
+            return "⬅";
         } else if (angle < 337.5 && angle > 292.5) {
-            c = "⬉";
+            return "⬉";
+        } else {
+            return "";
         }
-        return c;
     }
 
-    public static double getAngleBetweenPlayerAndLocation(Player p, Location Loc) {
-        Location Locp = p.getLocation();
-        if (Locp.getWorld() == Loc.getWorld()) {
-            if (Locp.getBlockX() != Loc.getBlockX() || Locp.getBlockZ() != Loc.getBlockZ()) {
-                double xp = Locp.getBlockX();
-                double zp = Locp.getBlockZ();
-                double xl = Loc.getBlockX();
-                double zl = Loc.getBlockZ();
-                double distancex = xp - xl;
-                double distancecx = distancex < 0.0 ? -distancex : distancex;
-                double distancez = zp - zl;
-                double distancecz = distancez < 0.0 ? -distancez : distancez;
-                double angle = 180.0 * Math.atan(distancecz / distancecx) / 3.141;
+    /**
+     * Special cases:
+     * <br> -2. if the player is not in location's world
+     * <br> -1. if the player is at location's X and Z coordinates.
+     *
+     * @return the computed angle in degrees.
+     */
+    public static double getAngleBetweenPlayerAndLocation(Player player, Location location) {
+        Location playerLocation = player.getLocation();
 
-                if (distancex < 0.0 || distancez < 0.0) {
-                    if (distancex < 0.0 && distancez >= 0.0) {
-                        angle = 90.0 - angle + 90.0;
-                    } else if (distancex <= 0.0 && distancez < 0.0) {
-                        angle += 180.0;
-                    } else if (distancex > 0.0) { // distancez < 0.0 when reached
-                        angle = 90.0 - angle + 270.0;
-                    }
-                }
-                if ((angle += 270.0) >= 360.0) {
-                    angle -= 360.0;
-                }
-                if ((angle -= p.getEyeLocation().getYaw() + 180.0f) <= 0.0) {
-                    angle += 360.0;
-                }
-                if (angle <= 0.0) {
-                    angle += 360.0;
-                }
-                return angle;
+        if (playerLocation.getWorld() != location.getWorld())
+            return -2.;
+
+        if (playerLocation.getBlockX() == location.getBlockX() && playerLocation.getBlockZ() == location.getBlockZ())
+            return -1.;
+
+        double xDistance = playerLocation.getBlockX() - location.getBlockX();
+        double zDistance = playerLocation.getBlockZ() - location.getBlockZ();
+
+        double angle = 180. * Math.atan(Math.abs(zDistance) / Math.abs(xDistance)) / PI;
+
+        if (xDistance < 0. || zDistance < 0.) {
+            if (xDistance < 0. && zDistance >= 0.) {
+                angle = 180. - angle;
+            } else if (xDistance <= 0.) {
+                angle += 180.;
+            } else {
+                angle = 360. - angle;
             }
-            return -1.0;
         }
-        return -2.0;
+        if ((angle += 270.) >= 360.) {
+            angle -= 360.;
+        }
+        if ((angle -= player.getEyeLocation().getYaw() + 180.f) <= 0.) {
+            angle += 360.;
+        }
+        if (angle <= 0.) {
+            angle += 360.;
+        }
+        return angle;
     }
-
 
     public static String getArrowCharByAngleBetweenPlayerAndLocation(Player player, Location location) {
         return getArrowCharByAngle(getAngleBetweenPlayerAndLocation(player, location));
@@ -158,11 +144,11 @@ public class GameUtils {
         return getRandomElementExcept(array, Collections.singletonList(except));
     }
 
-    public static <T> Optional<T> getRandomElementExcept(List<T> list, List<T> except) {
+    public static <T> Optional<T> getRandomElementExcept(List<T> list, Collection<T> except) {
         return getRandomElement(list.stream().filter(t -> !except.contains(t)).collect(Collectors.toList()));
     }
 
-    public static <T> Optional<T> getRandomElementExcept(T[] array, List<T> except) {
+    public static <T> Optional<T> getRandomElementExcept(T[] array, Collection<T> except) {
         return getRandomElement(Arrays.stream(array).filter(t -> !except.contains(t)).collect(Collectors.toList()));
     }
 
@@ -171,4 +157,3 @@ public class GameUtils {
         return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).filter(s -> s.toLowerCase().startsWith(lowerPrefix)).toList();
     }
 }
-

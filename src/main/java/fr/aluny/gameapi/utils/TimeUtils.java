@@ -71,22 +71,22 @@ public class TimeUtils {
             if (duration.isZero())
                 return "∅";
 
-            List<String> parts = new ArrayList<>();
+            List<String> parts = new ArrayList<>(4);
             long days = duration.toDaysPart();
             if (days > 0) {
-                parts.add(plural(days, "day"));
+                parts.add(days + "j");
             }
             int hours = duration.toHoursPart();
             if (hours > 0) {
-                parts.add(plural(hours, "hour"));
+                parts.add(hours + "h");
             }
             int minutes = duration.toMinutesPart();
             if (minutes > 0) {
-                parts.add(plural(minutes, "minute"));
+                parts.add(minutes + "m");
             }
             int seconds = duration.toSecondsPart();
             if (seconds > 0) {
-                parts.add(plural(seconds, "second"));
+                parts.add(seconds + "s");
             }
             return String.join(" ", parts);
         }
@@ -95,27 +95,23 @@ public class TimeUtils {
             if (period.isZero())
                 return "∅";
 
-            List<String> parts = new ArrayList<>();
+            List<String> parts = new ArrayList<>(3);
             int years = period.getYears();
             if (years > 0) {
-                parts.add(plural(years, "year"));
+                parts.add(years + "y");
             }
             int months = period.getMonths();
             if (months > 0) {
-                parts.add(plural(months, "month"));
+                parts.add(months + "mo");
             }
             int days = period.getDays();
             if (days > 0) {
-                parts.add(plural(days, "day"));
+                parts.add(days + "j");
             }
             return String.join(" ", parts);
         }
 
         return "";
-    }
-
-    private static String plural(long num, String unit) {
-        return num + " " + unit + (num == 1 ? "" : "s");
     }
 
     public static boolean isBetween(OffsetDateTime dateTime, OffsetDateTime beginning, OffsetDateTime end) {
