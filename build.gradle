@@ -5,7 +5,7 @@ plugins {
 
 def pluginName = "game-api"
 group 'fr.aluny'
-version '0.2-SNAPSHOT'
+version '0.3-SNAPSHOT'
 
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
