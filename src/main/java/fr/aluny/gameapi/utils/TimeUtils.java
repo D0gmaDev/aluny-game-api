@@ -27,7 +27,7 @@ public class TimeUtils {
      * Example inputs: "15d", "6y", "521s"
      *
      * @param input the temporal amount as a String
-     * @return the relevant {@link TemporalAmount} optional, meaning a {@link Duration} (<= hours) or a {@link Period}
+     * @return the relevant {@link TemporalAmount} optional, meaning a {@link Duration} (hours or less) or a {@link Period}
      */
     public static Optional<TemporalAmount> parsePositiveTemporalAmount(String input) {
         Matcher matcher = DURATION_PATTERN.matcher(input);

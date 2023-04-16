@@ -6,4 +6,8 @@ public interface Service {
 
     }
 
+    default void shutdown() {
+
+    }
+
 }
