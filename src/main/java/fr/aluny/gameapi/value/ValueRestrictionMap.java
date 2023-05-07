@@ -1,11 +1,9 @@
 package fr.aluny.gameapi.value;
 
-
 import fr.aluny.gameapi.value.ValueRestriction.RestrictionType;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ValueRestrictionMap extends HashMap<GeneralValue<?>, ValueRestriction<?>[]> {
 
@@ -29,7 +27,7 @@ public class ValueRestrictionMap extends HashMap<GeneralValue<?>, ValueRestricti
         ValueRestriction<?>[] restrictions;
         if (containsKey(generalValue)) {
             List<ValueRestriction<?>> oldRestrictions = Arrays.asList(get(generalValue));
-            oldRestrictions.addAll(Arrays.stream(valueRestrictions).collect(Collectors.toList()));
+            oldRestrictions.addAll(List.of(valueRestrictions));
             restrictions = oldRestrictions.toArray(new ValueRestriction<?>[]{ });
         } else {
             restrictions = valueRestrictions;

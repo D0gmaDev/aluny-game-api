@@ -86,8 +86,8 @@ public class WorldBorderUtils {
         Location upLoc = center.clone().add(finalVector);
 
         upLoc.setY(Objects.requireNonNull(upLoc.getWorld()).getHighestBlockYAt(upLoc) + 1.2);
-        if (entity instanceof Player)
-            ((Player) entity).playSound(entity.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 50F);
+        if (entity instanceof Player player)
+            player.playSound(entity.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 50F);
         entity.teleport(new Location(location.getWorld(), upLoc.getX() + 0.5, upLoc.getY(), upLoc.getZ() + 0.5, entity.getLocation().getYaw(), entity.getLocation().getPitch()));
     }
 
