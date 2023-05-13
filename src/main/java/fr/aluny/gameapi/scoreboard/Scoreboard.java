@@ -1,119 +1,174 @@
 package fr.aluny.gameapi.scoreboard;
 
-import java.util.Collection;
-import java.util.List;
-import org.bukkit.entity.Player;
+import fr.aluny.gameapi.player.GamePlayer;
+import fr.aluny.gameapi.timer.Timer;
+import java.util.function.BooleanSupplier;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
+/**
+ * Represents a Minecraft scoreboard.
+ *
+ * @see ScoreboardService
+ */
 public interface Scoreboard {
 
     /**
-     * Get the scoreboard title.
+     * Adds a raw text line to the scoreboard.
      *
-     * @return the scoreboard title
+     * @param text the raw text to add
+     * @return the updated scoreboard
      */
-    String getTitle();
+    Scoreboard addRawTextLine(String text);
 
     /**
-     * Update the scoreboard title.
+     * Adds a line to the scoreboard using a component.
      *
-     * @param title the new scoreboard title
-     * @throws IllegalArgumentException if the title is longer than 32 chars on 1.12 or lower
-     * @throws IllegalStateException if {@link #delete()} was call before
+     * @param component the component to add as a line
+     * @return the updated scoreboard
      */
-    void updateTitle(String title);
+    Scoreboard addLine(Component component);
 
     /**
-     * Get the scoreboard lines.
+     * Adds a line to the scoreboard using a key and tag resolvers.
      *
-     * @return the scoreboard lines
+     * @param key the translation key
+     * @param arguments the tag resolvers
+     * @return the updated scoreboard
      */
-    List<String> getLines();
+    Scoreboard addLine(String key, TagResolver... arguments);
 
     /**
-     * Get the specified scoreboard line.
+     * Adds a blank line to the scoreboard.
      *
-     * @param line the line number
-     * @return the line
-     * @throws IndexOutOfBoundsException if the line is higher than {@code size}
+     * @return the updated scoreboard
      */
-    String getLine(int line);
+    Scoreboard addBlankLine();
 
     /**
-     * Update a single scoreboard line.
+     * Adds an updatable line to the scoreboard using a supplier.
      *
-     * @param line the line number
-     * @param text the new line text
-     * @throws IndexOutOfBoundsException if the line is higher than {@link #size() size() + 1}
+     * @param line the supplier that provides the line component
+     * @return the updated scoreboard
      */
-    void updateLine(int line, String text);
+    Scoreboard addUpdatableLine(Supplier<Component> line);
 
     /**
-     * Remove a scoreboard line.
+     * Adds an updatable line to the scoreboard using a key and a supplier of tag resolvers.
      *
-     * @param line the line number
+     * @param key the translation key
+     * @param arguments the supplier of tag resolvers
+     * @return the updated scoreboard
      */
-    void removeLine(int line);
+    Scoreboard addUpdatableLine(String key, Supplier<TagResolver> arguments);
 
     /**
-     * Update all the scoreboard lines.
+     * Adds an updatable line to the scoreboard using a function that takes a game player and returns a component.
      *
-     * @param lines the new lines
-     * @throws IllegalArgumentException if one line is longer than 30 chars on 1.12 or lower
-     * @throws IllegalStateException if {@link #delete()} was call before
+     * @param line the function that provides the line component
+     * @return the updated scoreboard
      */
-    void updateLines(String... lines);
+    Scoreboard addUpdatableLine(Function<GamePlayer, Component> line);
 
     /**
-     * Update the lines of the scoreboard
+     * Adds an updatable line to the scoreboard using a key and a function of tag resolvers.
      *
-     * @param lines the new scoreboard lines
-     * @throws IllegalArgumentException if one line is longer than 30 chars on 1.12 or lower
-     * @throws IllegalStateException if {@link #delete()} was call before
+     * @param key the translation key
+     * @param arguments the function of tag resolvers
+     * @return the updated scoreboard
      */
-    void updateLines(Collection<String> lines);
+    Scoreboard addUpdatableLine(String key, Function<GamePlayer, TagResolver> arguments);
 
     /**
-     * Get the player who has the scoreboard.
+     * Adds a conditional line to the scoreboard if the condition is met.
+     * Conditional lines are updatable lines.
      *
-     * @return current player for this ScoreboardImpl
+     * @param component the component for the line
+     * @param condition the condition for the line
+     * @return the updated scoreboard
      */
-    Player getPlayer();
+    Scoreboard addConditionalLine(Component component, BooleanSupplier condition);
 
     /**
-     * Get the scoreboard id.
+     * Adds a conditional line to the scoreboard if the condition is met.
+     * Conditional lines are updatable lines.
      *
-     * @return the id
+     * @param key the translation key
+     * @param arguments the supplier of tag resolvers
+     * @param condition the condition for the line
+     * @return the updated scoreboard
      */
-    String getId();
+    Scoreboard addConditionalLine(String key, Supplier<TagResolver> arguments, BooleanSupplier condition);
 
     /**
-     * Get if the scoreboard is deleted.
+     * Adds a conditional line to the scoreboard if the condition is met.
+     * Conditional lines are updatable lines.
      *
-     * @return true if the scoreboard is deleted
+     * @param line the function that provides the line component
+     * @param condition the condition for the line to be displayed
+     * @return the updated scoreboard
      */
-    boolean isDeleted();
+    Scoreboard addConditionalLine(Function<GamePlayer, Component> line, Predicate<GamePlayer> condition);
 
     /**
-     * Get the scoreboard size (the number of lines).
+     * Adds a conditional line to the scoreboard if the condition is met.
+     * Conditional lines are updatable lines.
      *
-     * @return the size
+     * @param key the translation key
+     * @param arguments the function of tag resolvers
+     * @param condition the condition for the line
+     * @return the updated scoreboard
      */
-    int size();
+    Scoreboard addConditionalLine(String key, Function<GamePlayer, TagResolver> arguments, Predicate<GamePlayer> condition);
 
     /**
-     * Delete this ScoreboardImpl, and will remove the scoreboard for the associated player if he is online.
-     * After this, all uses of {@link #updateLines} and {@link #updateTitle} will throw an {@link IllegalStateException}
+     * Adds a timer line to the scoreboard as an updatable line. The replacement tag is {@code timer}.
      *
-     * @throws IllegalStateException if this was already call before
+     * @param key the translation key
+     * @param timer the timer to display
+     * @return the updated scoreboard
+     * @see Timer#getIncreasingFormattedValue()
      */
-    void delete();
+    Scoreboard addIncreasingTimerLine(String key, Timer timer);
 
     /**
-     * Return if the player has a prefix/suffix characters limit.
-     * By default, it returns true only in 1.12 or lower.
-     * This method can be overridden to fix compatibility with some versions support plugin.
+     * Adds a timer line to the scoreboard as an updatable line. The replacement tag is {@code timer}.
      *
-     * @return max length
+     * @param key the translation key
+     * @param timer the timer to display
+     * @param endArgument the raw text to display once the timer is done
+     * @return the updated scoreboard
+     * @see Timer#getDecreasingFormattedValue()
      */
-    boolean hasLinesMaxLength();
+    Scoreboard addDecreasingTimerLine(String key, Timer timer, String endArgument);
+
+    /**
+     * Adds a viewer to the scoreboard.
+     *
+     * @param gamePlayer the game player to add as a viewer
+     */
+    void addViewer(GamePlayer gamePlayer);
+
+    /**
+     * Removes a viewer from the scoreboard.
+     *
+     * @param gamePlayer the game player to remove as a viewer
+     */
+    void removeViewer(GamePlayer gamePlayer);
+
+    /**
+     * Updates asynchronously every updatable lines of the scoreboard.
+     *
+     * @param delay the delay before the update starts, in ticks
+     * @param period the refreshment period, in ticks
+     */
+    void updateLinesPeriodically(long delay, long period);
+
+    /**
+     * Destroys the scoreboard.
+     */
+    void destroy();
 }

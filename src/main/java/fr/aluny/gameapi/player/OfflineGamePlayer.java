@@ -10,6 +10,9 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+/**
+ * Represents a player, whether online or offline.
+ */
 public interface OfflineGamePlayer {
 
     UUID getUuid();
