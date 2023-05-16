@@ -7,10 +7,10 @@ def pluginName = "game-api"
 group 'fr.aluny'
 version '0.4-SNAPSHOT'
 
+// Encode to UTF-8
 compileJava.options.encoding = 'UTF-8'
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.withType(Javadoc).configureEach { options.encoding = 'UTF-8' }
 
 def giteaToken = ext.alunyGiteaToken
 
