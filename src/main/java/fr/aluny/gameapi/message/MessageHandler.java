@@ -1,6 +1,7 @@
 package fr.aluny.gameapi.message;
 
-import java.util.List;
+import java.time.Duration;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 /**
@@ -30,14 +31,14 @@ public interface MessageHandler {
      * Sends a title and subtitle to the player(s) associated with this message handler.
      *
      * @param titleKey the key of the title message to send
-     * @param titleArgs the tag resolvers to use for replacing placeholders in the title message
+     * @param titleArgs the tag resolver to use for replacing placeholders in the title message
      * @param messageKey the key of the subtitle message to send
-     * @param messageArgs the tag resolvers to use for replacing placeholders in the subtitle message
+     * @param messageArgs the tag resolver to use for replacing placeholders in the subtitle message
      * @param fadeIn the duration in ticks for the title to fade in, in seconds
      * @param duration the duration in ticks for the title to display, in seconds
      * @param fadeOut the duration in ticks for the title to fade out, in seconds
      */
-    void sendTitle(String titleKey, List<TagResolver> titleArgs, String messageKey, List<TagResolver> messageArgs, int fadeIn, int duration, int fadeOut);
+    void sendTitle(String titleKey, TagResolver titleArgs, String messageKey, TagResolver messageArgs, int fadeIn, int duration, int fadeOut);
 
     /**
      * Sends an action bar message with the specified key and tag resolvers to the player(s) associated with this message handler.
@@ -46,5 +47,7 @@ public interface MessageHandler {
      * @param arguments the tag resolvers to use for replacing placeholders in the message
      */
     void sendActionBar(String key, TagResolver... arguments);
+
+    void showBossBar(String titleKey, TagResolver arguments, BossBar.Color color, BossBar.Overlay overlay, Duration duration);
 
 }

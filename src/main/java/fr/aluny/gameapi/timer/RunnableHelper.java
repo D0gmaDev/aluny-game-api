@@ -1,7 +1,9 @@
 package fr.aluny.gameapi.timer;
 
 import fr.aluny.gameapi.service.Service;
+import java.util.function.Consumer;
 import java.util.function.IntConsumer;
+import java.util.function.IntPredicate;
 import org.bukkit.scheduler.BukkitTask;
 
 public interface RunnableHelper extends Service {
@@ -18,7 +20,15 @@ public interface RunnableHelper extends Service {
 
     BukkitTask runTimerAsynchronously(Runnable runnable, long delay, long interval);
 
-    BukkitTask runRepeatSynchronously(IntConsumer runnable, long delay, long interval, int occurrences);
+    void runTimerSynchronously(Consumer<BukkitTask> task, long delay, long interval);
 
-    BukkitTask runRepeatAsynchronously(IntConsumer runnable, long delay, long interval, int occurrences);
+    void runTimerAsynchronously(Consumer<BukkitTask> task, long delay, long interval);
+
+    void runRepeatSynchronously(IntConsumer runnable, IntPredicate earlyCancel, long delay, long interval, int occurrences);
+
+    void runRepeatAsynchronously(IntConsumer runnable, IntPredicate earlyCancel, long delay, long interval, int occurrences);
+
+    void runRepeatSynchronously(IntConsumer runnable, long delay, long interval, int occurrences);
+
+    void runRepeatAsynchronously(IntConsumer runnable, long delay, long interval, int occurrences);
 }
