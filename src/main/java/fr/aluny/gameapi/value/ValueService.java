@@ -8,23 +8,23 @@ public interface ValueService extends Service {
 
     <T extends Number> NumericValue<T> createNumericValue(String key, String nameKey, String descriptionKey, T defaultValue, T minValue, T maxValue, T smallStep, T mediumStem, T largeStep);
 
-    BooleanValue createBooleanValue(String key, String nameKey, String yesDescriptionKey, String noDescriptionKey, boolean value);
+    BooleanValue createBooleanValue(String key, String nameKey, String trueDescriptionKey, String falseDescriptionKey, boolean defaultValue);
 
-    TimeValue createTimeValue(String key, String nameKey, String descriptionKey, Long defaultValue, Long minValue, Long maxValue, Long smallStep, Long mediumStem, Long largeStep, TimeUnit timeUnit);
+    TimeValue createTimeValue(String key, String nameKey, String descriptionKey, long defaultValue, long minValue, long maxValue, long smallStep, long mediumStem, long largeStep, TimeUnit timeUnit);
 
-    <T extends Enum<T>> fr.aluny.gameapi.value.EnumValue<T> createEnumValue(String key, String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
+    <T extends Enum<T>> EnumValue<T> createEnumValue(String key, String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
 
-    StringValue createStringValue(String key, String nameKey, String descriptionKey, String value, int minLength, int maxLength);
+    StringValue createStringValue(String key, String nameKey, String descriptionKey, String defaultValue, int minLength, int maxLength);
 
     <T extends Number> NumericValue<T> createUnregisteredNumericValue(String nameKey, String descriptionKey, T defaultValue, T minValue, T maxValue, T smallStep, T mediumStem, T largeStep);
 
-    BooleanValue createUnregisteredBooleanValue(String nameKey, String yesDescriptionKey, String noDescriptionKey, boolean value);
+    BooleanValue createUnregisteredBooleanValue(String nameKey, String trueDescriptionKey, String falseDescriptionKey, boolean defaultValue);
 
-    TimeValue createUnregisteredTimeValue(String nameKey, String descriptionKey, Long defaultValue, Long minValue, Long maxValue, Long smallStep, Long mediumStem, Long largeStep, TimeUnit timeUnit);
+    TimeValue createUnregisteredTimeValue(String nameKey, String descriptionKey, long defaultValue, long minValue, long maxValue, long smallStep, long mediumStem, long largeStep, TimeUnit timeUnit);
 
-    <T extends Enum<T>> fr.aluny.gameapi.value.EnumValue<T> createUnregisteredEnumValue(String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
+    <T extends Enum<T>> EnumValue<T> createUnregisteredEnumValue(String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
 
-    StringValue createUnregisteredStringValue(String nameKey, String descriptionKey, String value, int minLength, int maxLength);
+    StringValue createUnregisteredStringValue(String nameKey, String descriptionKey, String defaultValue, int minLength, int maxLength);
 
     <T extends Number> Optional<NumericValue<T>> getNumericValue(String key);
 
