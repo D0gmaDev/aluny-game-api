@@ -35,6 +35,15 @@ public interface PlayerAccount {
     Optional<Integer> getCurrentServerId();
 
     /**
+     * Returns whether this player is online on any server of the network.
+     * This method is accurate at the time this object is created.
+     *
+     * @return whether the player is online
+     * @see #getCurrentServerId()
+     */
+    boolean isOnline();
+
+    /**
      * Gets the locale of the player.
      *
      * @return the locale of the player
