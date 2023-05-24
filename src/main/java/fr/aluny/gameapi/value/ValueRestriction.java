@@ -24,15 +24,15 @@ public class ValueRestriction<T> {
         return this.value;
     }
 
-    public boolean isAppliableOn(GeneralValue<T> value) {
+    public boolean isApplicableOn(GeneralValue<T> value) {
         if (isType(RestrictionType.LOCKED_VALUE))
             return !value.isLocked() || Objects.equals(getValue(), value.getValue());
 
-        if (!(getValue() instanceof Number) || !(value instanceof NumericValue))
+        if (!(getValue() instanceof Number number) || !(value instanceof NumericValue<?> numericValue))
             return true;
 
-        return isType(RestrictionType.MINIMAL_VALUE) && ((Number) getValue()).longValue() <= ((NumericValue<?>) value).getMaxValue().doubleValue() ||
-                isType(RestrictionType.MAXIMAL_VALUE) && ((Number) getValue()).longValue() >= ((NumericValue<?>) value).getMinValue().doubleValue();
+        return isType(RestrictionType.MINIMAL_VALUE) && number.doubleValue() <= numericValue.getMaxValue().doubleValue() ||
+                isType(RestrictionType.MAXIMAL_VALUE) && number.doubleValue() >= numericValue.getMinValue().doubleValue();
     }
 
     public enum RestrictionType {

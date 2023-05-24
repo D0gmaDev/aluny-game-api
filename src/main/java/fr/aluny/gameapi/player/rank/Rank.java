@@ -1,6 +1,7 @@
 package fr.aluny.gameapi.player.rank;
 
 import java.util.Set;
+import net.kyori.adventure.text.format.TextColor;
 
 /**
  * Represents a player rank, which can be used to determine various permissions or access levels.
@@ -44,6 +45,14 @@ public interface Rank {
      * @return The color code of the rank
      */
     String getColorCode();
+
+    /**
+     * Gets the color associated with the rank.
+     *
+     * @return the text color of the rank
+     * @see #getColorCode() the code of the color
+     */
+    TextColor getTextColor();
 
     /**
      * Gets the set of permissions associated with the rank.

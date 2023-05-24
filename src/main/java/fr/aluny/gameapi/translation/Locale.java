@@ -40,7 +40,9 @@ public interface Locale {
      * @param prefix the prefix to search for
      * @param arguments the arguments to include in the translation
      * @return a random translation whose key starts with the prefix
+     * @deprecated use {@link #getRandomTranslationsStartingWith(String)} and message component for formatting
      */
+    @Deprecated
     String getRandomTranslationsStartingWith(String prefix, Object... arguments);
 
     /**
@@ -57,7 +59,9 @@ public interface Locale {
      * @param key the key to search for
      * @param arguments the arguments to include in the translation
      * @return the translation for the specified key
+     * @deprecated use {@link #translate(String)} and message component for formatting
      */
+    @Deprecated
     String translate(String key, Object... arguments);
 
     /**

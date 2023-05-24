@@ -4,6 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 public interface TimeValue extends NumericValue<Long> {
 
+    long getLongValue();
+
     String getFormattedTime();
 
     String getFormattedSmallStep();

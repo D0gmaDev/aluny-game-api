@@ -10,11 +10,11 @@ public interface TimerService extends Service {
 
     Timer registerTimer(String key, Long delay, Long step, Long stop, TimeUnit timeUnit, Runnable runOnTick, Runnable runOnEnd);
 
-    Timer createTimerFromTimeValue(String key, TimeValue step, TimeValue end, Runnable runOnTick, Runnable runOnEnd);
+    Timer registerTimerFromTimeValue(String key, TimeValue step, TimeValue stop, Runnable runOnTick, Runnable runOnEnd);
 
     Timer registerTimer(String key, Long delay, Long step, Long stop, TimeUnit timeUnit, LongConsumer runOnTick, LongConsumer runOnEnd);
 
-    Timer createTimerFromTimeValue(String key, TimeValue step, TimeValue end, LongConsumer runOnTick, LongConsumer runOnEnd);
+    Timer registerTimerFromTimeValue(String key, TimeValue step, TimeValue stop, LongConsumer runOnTick, LongConsumer runOnEnd);
 
     Optional<Timer> getTimer(String key);
 

@@ -8,23 +8,23 @@ import org.bukkit.scoreboard.Team;
 public interface ScoreboardTeam {
 
     /**
-     * Gets the name of this Team
+     * Gets the name of this team.
      *
-     * @return Team name
+     * @return the team's current name
      */
     String getName();
 
     /**
      * Gets the prefix prepended to the display of entries on this team.
      *
-     * @return Team prefix
+     * @return the team's current prefix
      */
     String getPrefix();
 
     /**
      * Sets the prefix prepended to the display of entries on this team.
      *
-     * @param prefix New prefix
+     * @param prefix the new prefix for this team
      * characters
      */
     void setPrefix(String prefix);
@@ -40,22 +40,20 @@ public interface ScoreboardTeam {
      * Sets the suffix appended to the display of entries on this team.
      *
      * @param suffix the new suffix for this team.
-     * characters
      */
     void setSuffix(String suffix);
 
     /**
      * Gets the color of the team.
      *
-     * @return team color, defaults to {@link ChatColor#RESET}
+     * @return team color, defaults to {@link ChatColor#RESET}.
      */
     ChatColor getColor() throws IllegalStateException;
 
     /**
      * Sets the color of the team.
      *
-     * @param color new color, must be non-null. Use {@link ChatColor#RESET} for
-     * no color
+     * @param color new color, must be non-null. Use {@link ChatColor#RESET} for no color
      */
     void setColor(ChatColor color);
 
@@ -74,7 +72,7 @@ public interface ScoreboardTeam {
     int getSize();
 
     /**
-     * This puts the specified player onto this team for the scoreboard.
+     * Puts the specified player onto this team for the scoreboard.
      * This will remove the player from any other team on the scoreboard.
      *
      * @param player the player to add
@@ -103,7 +101,7 @@ public interface ScoreboardTeam {
     boolean hasPlayer(GamePlayer player);
 
     /**
-     * Get an option for this team
+     * Gets an option for this team.
      *
      * @param option the option to get
      * @return the option status
@@ -111,7 +109,7 @@ public interface ScoreboardTeam {
     Team.OptionStatus getOption(Team.Option option);
 
     /**
-     * Set an option for this team
+     * Sets an option for this team.
      *
      * @param option the option to set
      * @param status the new option status

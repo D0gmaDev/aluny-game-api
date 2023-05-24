@@ -29,6 +29,7 @@ public interface Timer {
     /**
      * Returns the current value of the timer in a decreasing format,
      * meaning {@link #getMaxValue() max} - {@link #getValue() current}.
+     * If the timer has no maximum, the infinity symbol (U+221E) is returned.
      *
      * @return The formatted value of the timer in a decreasing format.
      */
@@ -65,7 +66,8 @@ public interface Timer {
     long getValue();
 
     /**
-     * Returns the maximum value of the timer.
+     * Returns the maximum value of the timer, or {@link Long#MAX_VALUE} if
+     * the timer has no maximum value.
      *
      * @return The maximum value of the timer
      */
