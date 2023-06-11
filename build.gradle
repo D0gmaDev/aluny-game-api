@@ -5,7 +5,7 @@ plugins {
 
 def pluginName = "game-api"
 group 'fr.aluny'
-version '0.4-SNAPSHOT'
+version '0.5-SNAPSHOT'
 
 // Encode to UTF-8
 compileJava.options.encoding = 'UTF-8'
@@ -61,7 +61,7 @@ publishing {
         maven(MavenPublication) {
             groupId group
             artifactId pluginName
-            version "0.4"
+            version "0.5"
 
             artifact jar
         }
