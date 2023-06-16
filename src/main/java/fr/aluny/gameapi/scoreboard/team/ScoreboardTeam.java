@@ -1,8 +1,11 @@
 package fr.aluny.gameapi.scoreboard.team;
 
 import fr.aluny.gameapi.player.GamePlayer;
+import java.util.Optional;
 import java.util.Set;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.scoreboard.Team;
 
 public interface ScoreboardTeam {
@@ -10,7 +13,7 @@ public interface ScoreboardTeam {
     /**
      * Gets the name of this team.
      *
-     * @return the team's current name
+     * @return the name of the team
      */
     String getName();
 
@@ -19,7 +22,7 @@ public interface ScoreboardTeam {
      *
      * @return the team's current prefix
      */
-    String getPrefix();
+    Component getPrefix();
 
     /**
      * Sets the prefix prepended to the display of entries on this team.
@@ -27,35 +30,35 @@ public interface ScoreboardTeam {
      * @param prefix the new prefix for this team
      * characters
      */
-    void setPrefix(String prefix);
+    void setPrefix(Component prefix);
 
     /**
      * Gets the suffix appended to the display of entries on this team.
      *
      * @return the team's current suffix
      */
-    String getSuffix();
+    Component getSuffix();
 
     /**
      * Sets the suffix appended to the display of entries on this team.
      *
      * @param suffix the new suffix for this team.
      */
-    void setSuffix(String suffix);
+    void setSuffix(Component suffix);
 
     /**
      * Gets the color of the team.
      *
-     * @return team color, defaults to {@link ChatColor#RESET}.
+     * @return team color, or empty if none
      */
-    ChatColor getColor() throws IllegalStateException;
+    Optional<TextColor> getColor();
 
     /**
      * Sets the color of the team.
      *
-     * @param color new color, must be non-null. Use {@link ChatColor#RESET} for no color
+     * @param color new color, or {@code null} for no color
      */
-    void setColor(ChatColor color);
+    void setColor(NamedTextColor color);
 
     /**
      * Gets the Set of players on the team

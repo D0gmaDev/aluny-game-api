@@ -40,4 +40,14 @@ public interface GamePlayer extends OfflineGamePlayer {
 
     boolean isVanished();
 
+    /**
+     * Manually sets whether a player is vanished. This method should generally not be called
+     * unless you know what you are doing.
+     *
+     * @param vanished the vanished state
+     * @see fr.aluny.gameapi.moderation.VanishService#vanishPlayer(GamePlayer)
+     * @see fr.aluny.gameapi.moderation.VanishService#unVanishPlayer(GamePlayer)
+     */
+    void setVanished(boolean vanished);
+
 }
