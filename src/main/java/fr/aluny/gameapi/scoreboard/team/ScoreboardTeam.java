@@ -56,7 +56,7 @@ public interface ScoreboardTeam {
     /**
      * Sets the color of the team.
      *
-     * @param color new color, must be non-null. Use null for no color
+     * @param color new color, or {@code null} for no color
      */
     void setColor(NamedTextColor color);
 
