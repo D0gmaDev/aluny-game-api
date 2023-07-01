@@ -14,6 +14,13 @@ import org.bukkit.entity.Entity;
 public interface Schematic {
 
     /**
+     * Gets the schematic version.
+     *
+     * @return the version
+     */
+    int getVersion();
+
+    /**
      * Pastes the schematic at the specified location, without a block or entity consumer.
      *
      * @param location the location to paste the schematic at
