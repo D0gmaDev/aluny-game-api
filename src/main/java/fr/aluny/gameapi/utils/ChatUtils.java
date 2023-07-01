@@ -1,24 +1,17 @@
 package fr.aluny.gameapi.utils;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 public class ChatUtils {
 
-    private final static int     CENTER_PX            = 160;
-    private static final Pattern CUSTOM_COLOR_PATTERN = Pattern.compile("<c:#([a-fA-F0-9]{6})>");
-
-    public static String colorize(String source) {
-        return CUSTOM_COLOR_PATTERN.matcher(source).replaceAll(matchResult -> ChatColor.of("#" + matchResult.group(1)).toString());
-    }
+    private final static int CENTER_PX = 160;
 
     public static String centerMessage(String message) {
-        int messagePxSize = getMessagePxSize(message.toCharArray());
+        int messagePxSize = getMessagePxSize(message, false);
 
         int halvedMessageSize = messagePxSize / 2;
         int toCompensate = CENTER_PX - halvedMessageSize;
@@ -27,10 +20,11 @@ public class ChatUtils {
         return " ".repeat(toCompensate / spaceLength) + message;
     }
 
-    public static BaseComponent centerMessage(BaseComponent... components) {
-        int messagePxSize = Arrays.stream(components).map(baseComponent -> baseComponent.toPlainText().toCharArray()).mapToInt(ChatUtils::getMessagePxSize).sum();
+    public static Component centerMessage(Component component) {
 
-        messagePxSize += Char.SPACE.length * 5 * (components.length - 1);
+        String plainText = PlainTextComponentSerializer.plainText().serialize(component);
+
+        int messagePxSize = getMessagePxSize(plainText, component.hasDecoration(TextDecoration.BOLD));
 
         int halvedMessageSize = messagePxSize / 2;
         int toCompensate = CENTER_PX - halvedMessageSize;
@@ -38,52 +32,30 @@ public class ChatUtils {
 
         String compensation = " ".repeat(toCompensate / spaceLength);
 
-        TextComponent component = new TextComponent(compensation);
-        TextComponent empty = new TextComponent("     ");
-        component.setClickEvent(null);
-        component.setHoverEvent(null);
-        empty.setClickEvent(null);
-        empty.setHoverEvent(null);
-
-        for (int i = 0; i < components.length - 1; i++) {
-            component.addExtra(components[i]);
-            component.addExtra(empty.duplicate());
-        }
-        component.addExtra(components[components.length - 1]);
-
-        return component;
+        return Component.text(compensation).append(component);
     }
 
 
     public static boolean canFit(String message) {
-        int messagePxSize = getMessagePxSize(message.toCharArray());
+        int messagePxSize = getMessagePxSize(message, false);
         return messagePxSize <= CENTER_PX * 2;
     }
 
-    public static boolean canFit(BaseComponent... components) {
-        int messagePxSize = Arrays.stream(components).map(baseComponent -> baseComponent.toPlainText().toCharArray()).mapToInt(ChatUtils::getMessagePxSize).sum();
+    public static boolean canFit(Component component) {
+        String plainText = PlainTextComponentSerializer.plainText().serialize(component);
 
-        messagePxSize += Char.SPACE.length * 5 * (components.length - 1);
-        return messagePxSize <= CENTER_PX * 2 - 10;
+        int messagePxSize = getMessagePxSize(plainText, component.hasDecoration(TextDecoration.BOLD));
+        return messagePxSize <= CENTER_PX * 2;
     }
 
-    private static int getMessagePxSize(char[] chars) {
+    private static int getMessagePxSize(String message, boolean bold) {
         int messagePxSize = 0;
-        boolean previousCode = false;
-        boolean isBold = false;
 
-        for (char c : chars) {
-            if (c == '§') {
-                previousCode = true;
-            } else if (previousCode) {
-                previousCode = false;
-                isBold = c == 'l' || c == 'L';
-            } else {
-                Char dFI = Char.getByCharacter(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.length;
-                messagePxSize++;
-            }
+        for (char c : message.toCharArray()) {
+            Char character = Char.getByCharacter(c);
+            messagePxSize += bold ? character.getBoldLength() : character.length;
         }
+
         return messagePxSize;
     }
 

@@ -10,14 +10,29 @@ import org.bukkit.entity.Player;
  */
 public interface GamePlayer extends OfflineGamePlayer {
 
+    /**
+     * Retrieves the {@link Player} associated with this {@link GamePlayer}.
+     *
+     * @return the player object
+     */
     Player getPlayer();
 
+    /**
+     * Retrieves the ping of the player, in milliseconds.
+     *
+     * @return the player's ping
+     */
     int getPing();
 
+    /**
+     * Retrieves the scoreboard team associated with the player, if any.
+     *
+     * @return an optional containing the scoreboard team if present, otherwise empty
+     */
     Optional<ScoreboardTeam> getScoreboardTeam();
 
     /**
-     * Manually sets a team. This method should generally not be called
+     * Manually sets a team for the player. This method should generally not be called
      * unless you know what you are doing.
      *
      * @param scoreboardTeam the team to set
@@ -26,10 +41,15 @@ public interface GamePlayer extends OfflineGamePlayer {
      */
     void setScoreboardTeam(ScoreboardTeam scoreboardTeam);
 
+    /**
+     * Retrieves the scoreboard associated with the player, if any.
+     *
+     * @return an optional containing the scoreboard if present, otherwise empty
+     */
     Optional<Scoreboard> getScoreboard();
 
     /**
-     * Manually sets a scoreboard. This method should generally not be called
+     * Manually sets a scoreboard for the player. This method should generally not be called
      * unless you know what you are doing.
      *
      * @param scoreboard the scoreboard to set
@@ -38,10 +58,15 @@ public interface GamePlayer extends OfflineGamePlayer {
      */
     void setScoreboard(Scoreboard scoreboard);
 
+    /**
+     * Checks if the player is currently vanished.
+     *
+     * @return true if the player is vanished, false otherwise
+     */
     boolean isVanished();
 
     /**
-     * Manually sets whether a player is vanished. This method should generally not be called
+     * Manually sets whether the player is vanished. This method should generally not be called
      * unless you know what you are doing.
      *
      * @param vanished the vanished state

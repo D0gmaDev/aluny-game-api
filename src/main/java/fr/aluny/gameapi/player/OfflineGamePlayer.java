@@ -4,6 +4,7 @@ import fr.aluny.gameapi.message.MessageHandler;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.UUID;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.inventory.PlayerInventory;
@@ -35,6 +36,10 @@ public interface OfflineGamePlayer {
 
     void removePotionEffect(PotionEffectType potionEffectType);
 
+    GameMode getGameMode();
+
+    void setGameMode(GameMode gameMode);
+
     PlayerInventory getInventory();
 
     void clearInventory();
@@ -64,6 +69,8 @@ public interface OfflineGamePlayer {
     void setWalkSpeed(float speed);
 
     boolean isAllowFlight();
+
+    void setAllowFlight(boolean allowFlight);
 
     MessageHandler getMessageHandler();
 
