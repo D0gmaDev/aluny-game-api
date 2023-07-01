@@ -7,17 +7,19 @@ import org.bukkit.event.player.PlayerEvent;
 
 public class GamePlayerQuitEvent extends PlayerEvent {
 
+    private static final HandlerList HANDLER_LIST = new HandlerList();
+
     private final GamePlayer gamePlayer;
+    private final boolean    hidden;
 
-    private static HandlerList handlerList = new HandlerList();
+    private boolean save;
 
-    private boolean hidden = false;
-    private boolean save   = true;
-
-    public GamePlayerQuitEvent(Player player, GamePlayer gamePlayer) {
+    public GamePlayerQuitEvent(Player player, GamePlayer gamePlayer, boolean hidden) {
         super(player);
         this.player = player;
         this.gamePlayer = gamePlayer;
+        this.hidden = hidden;
+        this.save = !hidden;
     }
 
     public GamePlayer getGamePlayer() {
@@ -26,10 +28,6 @@ public class GamePlayerQuitEvent extends PlayerEvent {
 
     public boolean isHidden() {
         return this.hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
     }
 
     public boolean isSaved() {
@@ -42,11 +40,11 @@ public class GamePlayerQuitEvent extends PlayerEvent {
 
     @Override
     public HandlerList getHandlers() {
-        return handlerList;
+        return HANDLER_LIST;
     }
 
     public static HandlerList getHandlerList() {
-        return handlerList;
+        return HANDLER_LIST;
     }
 
 }

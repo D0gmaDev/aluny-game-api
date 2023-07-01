@@ -28,12 +28,7 @@ public class WorldBorderUtils {
     }
 
     public static void setBorderSizeWithSpeedForAllWorlds(double diameter, double speed) {
-        Bukkit.getWorlds().forEach(world -> {
-            double sizeToReduce = world.getWorldBorder().getSize() - diameter;
-            long delay = Double.valueOf(sizeToReduce / speed).longValue();
-
-            world.getWorldBorder().setSize(diameter, delay);
-        });
+        Bukkit.getWorlds().forEach(world -> setBorderSizeWithSpeed(world, diameter, speed));
     }
 
     public static void setBorderDamagesAmountForAllWorlds(double damages) {

@@ -8,18 +8,17 @@ import org.bukkit.event.player.PlayerEvent;
 
 public class GamePlayerJoinEvent extends PlayerEvent {
 
-    private final GamePlayer gamePlayer;
+    private static final HandlerList HANDLER_LIST = new HandlerList();
 
+    private final GamePlayer    gamePlayer;
     private final PlayerAccount playerAccount;
+    private final boolean       hidden;
 
-    private static HandlerList handlerList = new HandlerList();
-
-    private boolean hidden = false;
-
-    public GamePlayerJoinEvent(Player player, GamePlayer gamePlayer, PlayerAccount playerAccount) {
+    public GamePlayerJoinEvent(Player player, GamePlayer gamePlayer, PlayerAccount playerAccount, boolean hidden) {
         super(player);
         this.gamePlayer = gamePlayer;
         this.playerAccount = playerAccount;
+        this.hidden = hidden;
     }
 
     public GamePlayer getGamePlayer() {
@@ -34,17 +33,13 @@ public class GamePlayerJoinEvent extends PlayerEvent {
         return this.hidden;
     }
 
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-
     @Override
     public HandlerList getHandlers() {
-        return handlerList;
+        return HANDLER_LIST;
     }
 
     public static HandlerList getHandlerList() {
-        return handlerList;
+        return HANDLER_LIST;
     }
 
 }
