@@ -5,7 +5,7 @@ plugins {
 
 def pluginName = "game-api"
 group 'fr.aluny'
-version '0.5-SNAPSHOT'
+version '0.6-SNAPSHOT'
 
 // Encode to UTF-8
 compileJava.options.encoding = 'UTF-8'
@@ -38,7 +38,7 @@ dependencies {
     compileOnly "io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT"
     compileOnly 'io.projectreactor:reactor-core:3.4.24'
 
-    implementation "xyz.xenondevs.invui:invui:1.7"
+    implementation "xyz.xenondevs.invui:invui:1.11"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
 }
@@ -61,7 +61,7 @@ publishing {
         maven(MavenPublication) {
             groupId group
             artifactId pluginName
-            version "0.5"
+            version "0.6"
 
             artifact jar
         }
