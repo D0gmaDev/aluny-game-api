@@ -4,6 +4,8 @@ import fr.aluny.gameapi.player.PlayerAccount;
 import fr.aluny.gameapi.service.Service;
 import java.util.List;
 import java.util.Optional;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -17,9 +19,18 @@ public interface TranslationService extends Service {
      *
      * @param plugin the plugin to load translations for
      * @param code the locale code to load translations for
-     * @param file the file name to load the translations from
+     * @param filePath the file path to load the translations from
      */
-    void loadTranslations(JavaPlugin plugin, String code, String file);
+    void loadTranslations(JavaPlugin plugin, String code, String filePath);
+
+    /**
+     * Loads translations for the specified plugin by looping over every {@code .properties}
+     * file directly in this directory. This method should only be called once for each plugin.
+     *
+     * @param plugin the plugin to load translations for
+     * @param directoryPath the directory path to load the translations files from
+     */
+    void loadTranslationsFromDirectory(JavaPlugin plugin, String directoryPath);
 
     /**
      * Returns an optional locale with the specified code,
@@ -56,17 +67,6 @@ public interface TranslationService extends Service {
     String getTranslation(String key, Locale locale);
 
     /**
-     * Returns the translation for the specified key and player account, formatted with the specified arguments.
-     *
-     * @param key the key for the translation
-     * @param playerAccount the player account for the translation
-     * @param args the arguments to include in the translation
-     * @return the translation for the specified key and player account, formatted with the specified arguments
-     * @see Locale#translate(String, Object...)
-     */
-    String getTranslation(String key, PlayerAccount playerAccount, String... args);
-
-    /**
      * Returns the translation for the specified key and player account.
      *
      * @param key the key for the translation
@@ -77,14 +77,25 @@ public interface TranslationService extends Service {
     String getTranslation(String key, PlayerAccount playerAccount);
 
     /**
-     * Returns the translation for the specified key, locale, and arguments.
+     * Returns the translation for the specified key and locale.
      *
      * @param key the key for the translation
      * @param locale the locale for the translation
-     * @param args the arguments to include in the translation
-     * @return the translation for the specified key, locale, and arguments
-     * @see Locale#translate(String, Object...)
+     * @param arguments the tag resolvers to use for replacing placeholders in the message
+     * @return the translation for the specified key and locale
+     * @see Locale#translateComponent(String, TagResolver...)
      */
-    String getTranslation(String key, Locale locale, String... args);
+    Component getComponentTranslation(String key, Locale locale, TagResolver... arguments);
+
+    /**
+     * Returns the translation for the specified key and player account.
+     *
+     * @param key the key for the translation
+     * @param playerAccount the player account for the translation
+     * @param arguments the tag resolvers to use for replacing placeholders in the message
+     * @return the translation for the specified key and player account
+     * @see Locale#translateComponent(String, TagResolver...)
+     */
+    Component getComponentTranslation(String key, PlayerAccount playerAccount, TagResolver... arguments);
 
 }
