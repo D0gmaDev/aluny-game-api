@@ -1,7 +1,8 @@
 package fr.aluny.gameapi.translation;
 
-import java.util.List;
 import java.util.Map;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 /**
  * Represents a locale for a particular language, meaning key-value pairs of strings.
@@ -17,35 +18,6 @@ public interface Locale {
     void addTranslations(Map<String, String> translations);
 
     /**
-     * Returns a list of translation pairs whose keys start with the specified prefix.
-     *
-     * @param prefix the prefix to search for
-     * @return a list of translation pairs whose keys start with the prefix
-     */
-    List<TranslationPair> getAllTranslationsStartingWith(String prefix);
-
-    /**
-     * Returns a random translation whose key starts with the specified prefix.
-     * This operation can be heavy.
-     *
-     * @param prefix the prefix to search for
-     * @return a random translation whose key starts with the prefix
-     */
-    String getRandomTranslationsStartingWith(String prefix);
-
-    /**
-     * Returns a random translation whose key starts with the specified prefix, formatted with the specified arguments.
-     * This operation can be heavy.
-     *
-     * @param prefix the prefix to search for
-     * @param arguments the arguments to include in the translation
-     * @return a random translation whose key starts with the prefix
-     * @deprecated use {@link #getRandomTranslationsStartingWith(String)} and message component for formatting
-     */
-    @Deprecated
-    String getRandomTranslationsStartingWith(String prefix, Object... arguments);
-
-    /**
      * Returns the translation for the specified key.
      *
      * @param key the key to search for
@@ -54,15 +26,21 @@ public interface Locale {
     String translate(String key);
 
     /**
-     * Returns the translation for the specified key, formatted with the specified arguments.
+     * Returns the translation for the specified key and arguments.
      *
      * @param key the key to search for
-     * @param arguments the arguments to include in the translation
+     * @param arguments the tag resolvers to use for replacing placeholders in the message
      * @return the translation for the specified key
-     * @deprecated use {@link #translate(String)} and message component for formatting
      */
-    @Deprecated
-    String translate(String key, Object... arguments);
+    Component translateComponent(String key, TagResolver... arguments);
+
+    /**
+     * Returns whether this locale has a certain key registered.
+     *
+     * @param key the key to search for
+     * @return whether the key exists in this locale
+     */
+    boolean hasTranslation(String key);
 
     /**
      * Returns the code for the locale.
@@ -80,10 +58,4 @@ public interface Locale {
      */
     boolean isDefaultLocale();
 
-    /**
-     * Represents a key-value pair for a translation.
-     */
-    record TranslationPair(String key, String value) {
-
-    }
 }

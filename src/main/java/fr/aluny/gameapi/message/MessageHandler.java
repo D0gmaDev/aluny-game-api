@@ -12,20 +12,20 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 public interface MessageHandler {
 
     /**
-     * Sends a message with the specified key and arguments to the player(s) associated with this message handler.
-     *
-     * @param key the key of the message to send
-     * @param arguments the arguments to replace in the message
-     */
-    void sendMessage(String key, String... arguments);
-
-    /**
      * Sends a component message with the specified key and tag resolvers to the player(s) associated with this message handler.
      *
      * @param key the key of the message to send
      * @param arguments the tag resolvers to use for replacing placeholders in the message
      */
-    void sendComponentMessage(String key, TagResolver... arguments);
+    void sendMessage(String key, TagResolver... arguments);
+
+    /**
+     * @deprecated use {@link #sendMessage(String, TagResolver...)}
+     */
+    @Deprecated
+    default void sendComponentMessage(String key, TagResolver... arguments) {
+        sendMessage(key, arguments);
+    }
 
     /**
      * Sends a title and subtitle to the player(s) associated with this message handler.
