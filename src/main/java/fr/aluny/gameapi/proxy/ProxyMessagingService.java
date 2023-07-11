@@ -15,7 +15,7 @@ public interface ProxyMessagingService extends Service {
 
     void connectOther(Player sender, String targetName, String server);
 
-    void kickFromProxy(Player sender, String targetName, String reason);
+    void kickFromProxy(Player sender, String targetName, Component reason);
 
     @Deprecated
     void sendMessage(Player sender, String targetName, BaseComponent message);
