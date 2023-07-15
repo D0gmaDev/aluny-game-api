@@ -20,4 +20,6 @@ public interface TimerService extends Service {
 
     boolean unregisterTimer(String key);
 
+    boolean unregisterTimer(Timer timer);
+
 }

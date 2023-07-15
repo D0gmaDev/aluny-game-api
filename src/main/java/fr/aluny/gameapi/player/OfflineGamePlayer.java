@@ -36,6 +36,8 @@ public interface OfflineGamePlayer {
 
     void removePotionEffect(PotionEffectType potionEffectType);
 
+    void clearPotionEffects();
+
     GameMode getGameMode();
 
     void setGameMode(GameMode gameMode);
@@ -44,7 +46,7 @@ public interface OfflineGamePlayer {
 
     void clearInventory();
 
-    int getLevels();
+    int getLevel();
 
     float getExperience();
 
