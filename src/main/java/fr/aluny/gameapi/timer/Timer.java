@@ -10,7 +10,7 @@ import reactor.core.publisher.Flux;
 public interface Timer {
 
     /**
-     * Gets the key of the timer
+     * Gets the key of the timer.
      *
      * @return the key
      */

@@ -36,7 +36,7 @@ public interface OfflineGamePlayer {
 
     void removePotionEffect(PotionEffectType potionEffectType);
 
-    void clearPotionsEffects();
+    void clearPotionEffects();
 
     GameMode getGameMode();
 
