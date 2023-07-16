@@ -3,11 +3,12 @@ package fr.aluny.gameapi.world;
 import java.util.function.Consumer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.entity.Entity;
 
 /**
  * Represents a Minecraft schematic, which is a 3D structure that can be loaded, manipulated, and then pasted into a world.
- * The operations on the schematics such as {@link #flip} or {@link #setPasteAir} mutate this instance.
+ * The schematic object should be considered as immutable.
  *
  * @see SchematicService the service to load schematics
  */
@@ -18,7 +19,7 @@ public interface Schematic {
      *
      * @return the version
      */
-    int getVersion();
+    int version();
 
     /**
      * Pastes the schematic at the specified location, without a block or entity consumer.
@@ -55,39 +56,48 @@ public interface Schematic {
     void paste(Location location, Consumer<Block> blockConsumer, boolean withEntities, Consumer<Entity> entityConsumer);
 
     /**
-     * Returns this schematic, rotated by the specified number of quarters.
+     * Pastes the schematic at the specified location, with a custom spec.
      *
-     * @param quart the number of quarters to rotate the schematic by (1 to 3)
-     * @return this schematic instance after the operation is performed
+     * @param location the location to paste the schematic at
+     * @param schematicPasteSpec the custom spec
+     * @see SchematicPasteSpec
      */
-    Schematic rotateBlocks(int quart);
+    void paste(Location location, SchematicPasteSpec schematicPasteSpec);
 
     /**
-     * Returns this schematic, flipped along the specified axis.
+     * Returns the rotated schematic by the specified rotation.
+     *
+     * @param rotation the rotation to rotate the schematic by
+     * @return a new schematic instance with the operation performed
+     */
+    Schematic rotate(StructureRotation rotation);
+
+    /**
+     * Returns the schematic, flipped along the specified axis.
      *
      * @param axis the axis to flip the schematic along
-     * @return this schematic instance after the operation is performed
+     * @return a new schematic instance with the operation performed
      */
     Schematic flip(Axis axis);
 
     /**
-     * Returns this schematic, flipped along the X axis.
+     * Returns the schematic, flipped along the X axis.
      *
-     * @return this schematic instance after the operation is performed
+     * @return a new schematic instance with the operation performed
      */
     Schematic flipX();
 
     /**
-     * Returns this schematic, flipped along the Y axis.
+     * Returns the schematic, flipped along the Y axis.
      *
-     * @return this schematic instance after the operation is performed
+     * @return a new schematic instance with the operation performed
      */
     Schematic flipY();
 
     /**
-     * Returns this schematic, flipped along the Z axis.
+     * Returns the schematic, flipped along the Z axis.
      *
-     * @return this schematic instance after the operation is performed
+     * @return a new schematic instance with the operation performed
      */
     Schematic flipZ();
 
@@ -96,31 +106,19 @@ public interface Schematic {
      *
      * @return the width of the schematic in blocks
      */
-    short getWidth();
+    short width();
 
     /**
      * Returns the length of the schematic.
      *
      * @return the length of the schematic in blocks
      */
-    short getLength();
+    short length();
 
     /**
      * Returns the height of the schematic.
      *
      * @return the height of the schematic in blocks
      */
-    short getHeight();
-
-    /**
-     * Sets whether to paste air blocks in the schematic when pasting.
-     *
-     * @param pasteAir whether to paste air blocks
-     */
-    void setPasteAir(boolean pasteAir);
-
-    /**
-     * Returns whether the schematic paste air blocks.
-     */
-    boolean isPasteAir();
+    short height();
 }

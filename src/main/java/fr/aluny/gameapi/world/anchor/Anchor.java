@@ -4,7 +4,7 @@ import org.bukkit.Location;
 
 public record Anchor(String key, String[] args, Location location) {
 
-    public Location getBlockLocation() {
+    public Location blockLocation() {
         return location.getBlock().getLocation();
     }
 
