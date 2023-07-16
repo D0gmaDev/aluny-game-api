@@ -1,5 +1,6 @@
 package fr.aluny.gameapi.value;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public interface TimeValue extends NumericValue<Long> {
@@ -15,5 +16,7 @@ public interface TimeValue extends NumericValue<Long> {
     String getFormattedLargeStep();
 
     TimeUnit getTimeUnit();
+
+    Duration toDuration();
 
 }

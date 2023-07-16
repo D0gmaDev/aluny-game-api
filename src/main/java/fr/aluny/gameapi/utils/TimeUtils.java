@@ -58,6 +58,10 @@ public class TimeUtils {
         return duration1.compareTo(duration2) > 0 ? duration2 : duration1;
     }
 
+    public static boolean isFirstLessOrEqual(Duration duration1, Duration duration2) {
+        return duration1.compareTo(duration2) <= 0;
+    }
+
     public static String formatDateToCET(TemporalAccessor date, Locale locale) {
         return DATE_TIME_FORMATTER.withLocale(locale).format(date);
     }
