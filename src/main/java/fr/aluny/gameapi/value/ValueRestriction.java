@@ -1,38 +1,21 @@
 package fr.aluny.gameapi.value;
 
 import java.util.Objects;
+import java.util.UUID;
 
-public class ValueRestriction<T> {
+public record ValueRestriction<T>(UUID id, RestrictionType type, T value) {
 
-    private final RestrictionType restrictionType;
-    private final T               value;
+    public ValueRestriction {
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(type);
+        Objects.requireNonNull(value);
 
-    public ValueRestriction(RestrictionType restrictionType, T value) {
-        this.restrictionType = restrictionType;
-        this.value = value;
+        if ((type == RestrictionType.MAXIMAL_VALUE || type == RestrictionType.MINIMAL_VALUE) && !(value instanceof Comparable<?>))
+            throw new IllegalArgumentException(type + " restriction must be applied on a Comparable");
     }
 
     public boolean isType(RestrictionType type) {
-        return getType() == type;
-    }
-
-    public RestrictionType getType() {
-        return this.restrictionType;
-    }
-
-    public T getValue() {
-        return this.value;
-    }
-
-    public boolean isApplicableOn(GeneralValue<T> value) {
-        if (isType(RestrictionType.LOCKED_VALUE))
-            return !value.isLocked() || Objects.equals(getValue(), value.getValue());
-
-        if (!(getValue() instanceof Number number) || !(value instanceof NumericValue<?> numericValue))
-            return true;
-
-        return isType(RestrictionType.MINIMAL_VALUE) && number.doubleValue() <= numericValue.getMaxValue().doubleValue() ||
-                isType(RestrictionType.MAXIMAL_VALUE) && number.doubleValue() >= numericValue.getMinValue().doubleValue();
+        return type() == type;
     }
 
     public enum RestrictionType {
