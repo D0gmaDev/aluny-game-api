@@ -4,11 +4,13 @@ import fr.aluny.gameapi.value.ValueRestriction.RestrictionType;
 
 public interface Restrictible<T> {
 
-    void addRestriction(String key, RestrictionType type, T value);
+    ValueRestriction<T> addRestriction(RestrictionType type, T value);
 
-    void addRestriction(String key, ValueRestriction<T> restriction);
+    void addRestriction(ValueRestriction<T> restriction);
 
-    void removeRestriction(String key);
+    void removeRestriction(ValueRestriction<T> restriction);
+
+    boolean canApply(ValueRestriction<T> restriction);
 
     boolean isLocked();
 

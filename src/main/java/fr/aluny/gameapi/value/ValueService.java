@@ -6,35 +6,35 @@ import java.util.concurrent.TimeUnit;
 
 public interface ValueService extends Service {
 
-    <T extends Number> NumericValue<T> createNumericValue(String key, String nameKey, String descriptionKey, T defaultValue, T minValue, T maxValue, T smallStep, T mediumStem, T largeStep);
+    <T extends Number & Comparable<T>> NumericValue<T> registerNumericValue(String key, String nameKey, String descriptionKey, T defaultValue, T minValue, T maxValue, T smallStep, T mediumStem, T largeStep);
 
-    BooleanValue createBooleanValue(String key, String nameKey, String trueDescriptionKey, String falseDescriptionKey, boolean defaultValue);
+    BooleanValue registerBooleanValue(String key, String nameKey, String trueDescriptionKey, String falseDescriptionKey, boolean defaultValue);
 
-    TimeValue createTimeValue(String key, String nameKey, String descriptionKey, long defaultValue, long minValue, long maxValue, long smallStep, long mediumStem, long largeStep, TimeUnit timeUnit);
+    TimeValue registerTimeValue(String key, String nameKey, String descriptionKey, long defaultValue, long minValue, long maxValue, long smallStep, long mediumStem, long largeStep, TimeUnit timeUnit);
 
-    <T extends Enum<T>> EnumValue<T> createEnumValue(String key, String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
+    <T extends Enum<T>> EnumValue<T> registerEnumValue(String key, String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
 
-    StringValue createStringValue(String key, String nameKey, String descriptionKey, String defaultValue, int minLength, int maxLength);
+    StringValue registerStringValue(String key, String nameKey, String descriptionKey, String defaultValue, int minLength, int maxLength);
 
-    <T extends Number> NumericValue<T> createUnregisteredNumericValue(String nameKey, String descriptionKey, T defaultValue, T minValue, T maxValue, T smallStep, T mediumStem, T largeStep);
+    <T extends Number & Comparable<T>> NumericValue<T> createNumericValue(String nameKey, String descriptionKey, T defaultValue, T minValue, T maxValue, T smallStep, T mediumStem, T largeStep);
 
-    BooleanValue createUnregisteredBooleanValue(String nameKey, String trueDescriptionKey, String falseDescriptionKey, boolean defaultValue);
+    BooleanValue createBooleanValue(String nameKey, String trueDescriptionKey, String falseDescriptionKey, boolean defaultValue);
 
-    TimeValue createUnregisteredTimeValue(String nameKey, String descriptionKey, long defaultValue, long minValue, long maxValue, long smallStep, long mediumStem, long largeStep, TimeUnit timeUnit);
+    TimeValue createTimeValue(String nameKey, String descriptionKey, long defaultValue, long minValue, long maxValue, long smallStep, long mediumStem, long largeStep, TimeUnit timeUnit);
 
-    <T extends Enum<T>> EnumValue<T> createUnregisteredEnumValue(String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
+    <T extends Enum<T>> EnumValue<T> createEnumValue(String nameKey, Class<T> enumerationClass, T defaultValue, String... descriptionKeys);
 
-    StringValue createUnregisteredStringValue(String nameKey, String descriptionKey, String defaultValue, int minLength, int maxLength);
+    StringValue createStringValue(String nameKey, String descriptionKey, String defaultValue, int minLength, int maxLength);
 
-    <T extends Number> Optional<NumericValue<T>> getNumericValue(String key);
+    <T extends Number & Comparable<T>> Optional<? extends NumericValue<T>> getNumericValue(Class<T> numericType, String key);
 
-    Optional<BooleanValue> getBooleanValue(String key);
+    Optional<? extends BooleanValue> getBooleanValue(String key);
 
-    Optional<TimeValue> getTimeValue(String key);
+    Optional<? extends TimeValue> getTimeValue(String key);
 
-    <T extends Enum<T>> Optional<EnumValue<T>> getEnumValue(String key);
+    <T extends Enum<T>> Optional<? extends EnumValue<T>> getEnumValue(Class<T> enumClass, String key);
 
-    Optional<StringValue> getStringValue(String key);
+    Optional<? extends StringValue> getStringValue(String key);
 
     void removeValue(String key);
 

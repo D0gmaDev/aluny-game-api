@@ -12,6 +12,8 @@ public interface GeneralValue<T> extends Restrictible<T> {
 
     T getDefaultValue();
 
+    void reset();
+
     IOnValueChanged<T> subscribeOnValueChanged(IOnValueChanged<T> onChanged);
 
     boolean unsubscribeOnValueChanged(IOnValueChanged<T> onChanged);
