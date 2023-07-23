@@ -26,15 +26,15 @@ public interface ValueService extends Service {
 
     StringValue createStringValue(String nameKey, String descriptionKey, String defaultValue, int minLength, int maxLength);
 
-    <T extends Number & Comparable<T>> Optional<NumericValue<T>> getNumericValue(Class<T> numericType, String key);
+    <T extends Number & Comparable<T>> Optional<? extends NumericValue<T>> getNumericValue(Class<T> numericType, String key);
 
-    Optional<BooleanValue> getBooleanValue(String key);
+    Optional<? extends BooleanValue> getBooleanValue(String key);
 
-    Optional<TimeValue> getTimeValue(String key);
+    Optional<? extends TimeValue> getTimeValue(String key);
 
-    <T extends Enum<T>> Optional<EnumValue<T>> getEnumValue(Class<T> enumClass, String key);
+    <T extends Enum<T>> Optional<? extends EnumValue<T>> getEnumValue(Class<T> enumClass, String key);
 
-    Optional<StringValue> getStringValue(String key);
+    Optional<? extends StringValue> getStringValue(String key);
 
     void removeValue(String key);
 
