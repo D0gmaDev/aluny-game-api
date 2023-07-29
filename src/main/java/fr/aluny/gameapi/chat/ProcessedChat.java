@@ -1,49 +1,53 @@
 package fr.aluny.gameapi.chat;
 
 import fr.aluny.gameapi.player.GamePlayer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.UnaryOperator;
+import io.papermc.paper.chat.ChatRenderer;
+import java.util.Set;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 
-public class ProcessedChat {
+public final class ProcessedChat {
 
-    private TextComponent messageContent;
+    private final GamePlayer    sender;
+    private final Set<Audience> audience;
 
-    private final GamePlayer           sender;
-    private final Map<UUID, Component> contentForPlayer = new HashMap<>();
+    private Component    message;
+    private ChatRenderer chatRenderer = ChatRenderer.defaultRenderer();
 
     private boolean cancelled = false;
 
-    public ProcessedChat(GamePlayer sender, TextComponent messageContent) {
+    public ProcessedChat(GamePlayer sender, Set<Audience> audience, Component message) {
         this.sender = sender;
-        this.messageContent = messageContent;
-    }
-
-    public TextComponent getMessageContent() {
-        return this.messageContent;
-    }
-
-    public void setMessageContent(UnaryOperator<TextComponent> operator) {
-        this.messageContent = operator.apply(this.messageContent);
-    }
-
-    public void setMessageContentForPlayer(UUID uuid, Component message) {
-        this.contentForPlayer.put(uuid, message);
-    }
-
-    public Component getMessageContentForPlayer(UUID uuid) {
-        return this.contentForPlayer.getOrDefault(uuid, this.messageContent);
+        this.audience = audience;
+        this.message = message;
     }
 
     public GamePlayer getSender() {
-        return this.sender;
+        return sender;
+    }
+
+    public Set<Audience> getAudience() {
+        return audience;
+    }
+
+    public Component getMessage() {
+        return message;
+    }
+
+    public void setMessage(Component message) {
+        this.message = message;
+    }
+
+    public ChatRenderer getRenderer() {
+        return chatRenderer;
+    }
+
+    public void setRenderer(ChatRenderer chatRenderer) {
+        this.chatRenderer = chatRenderer;
     }
 
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     public void setCancelled(boolean cancelled) {
