@@ -8,26 +8,21 @@ import xyz.xenondevs.inventoryaccess.util.AdventureComponentUtils;
 
 public class MiniMessageLocalizer {
 
-    private static final MiniMessageLocalizer INSTANCE = new MiniMessageLocalizer();
+    private static MiniMessage miniMessageParser = MiniMessage.miniMessage();
 
-    private MiniMessage miniMessageParser = MiniMessage.miniMessage();
-
-    private MiniMessageLocalizer() {
-    }
-
-    public static MiniMessageLocalizer getInstance() {
-        return INSTANCE;
-    }
-
-    public Component localize(String lang, String key, TagResolver... resolvers) {
-        var formatString = Languages.getInstance().getFormatString(lang, key);
+    public static Component localize(String lang, String key, TagResolver resolver) {
+        String formatString = Languages.getInstance().getFormatString(lang, key);
         if (formatString == null)
-            return Component.empty();
+            return Component.text("Missing Translation [" + key + ']');
 
-        return AdventureComponentUtils.withoutPreFormatting(miniMessageParser.deserialize(formatString, resolvers));
+        return resolver != null ? miniMessageParser.deserialize(formatString, resolver) : miniMessageParser.deserialize(formatString);
     }
 
-    public void setMiniMessageParser(MiniMessage miniMessageParser) {
-        this.miniMessageParser = miniMessageParser;
+    public static Component localizeWithoutPreFormatting(String lang, String key, TagResolver resolver) {
+        return AdventureComponentUtils.withoutPreFormatting(localize(lang, key, resolver));
+    }
+
+    public static void setMiniMessageParser(MiniMessage parser) {
+        miniMessageParser = parser;
     }
 }
