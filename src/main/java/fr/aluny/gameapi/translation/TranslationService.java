@@ -14,14 +14,28 @@ import org.bukkit.plugin.java.JavaPlugin;
 public interface TranslationService extends Service {
 
     /**
+     * Loads translations for the specified plugin and locale. This method should
+     * only be called once for each plugin and each locale.
+     *
+     * @param plugin the plugin to load translations for
+     * @param javaLocale the java locale to load translations for
+     * @param filePath the file path to load the translations from
+     */
+    void loadTranslations(JavaPlugin plugin, java.util.Locale javaLocale, String filePath);
+
+    /**
      * Loads translations for the specified plugin and locale code. This method should
      * only be called once for each plugin and each locale.
      *
      * @param plugin the plugin to load translations for
      * @param code the locale code to load translations for
      * @param filePath the file path to load the translations from
+     * @deprecated use a java locale instead of a code
      */
-    void loadTranslations(JavaPlugin plugin, String code, String filePath);
+    @Deprecated
+    default void loadTranslations(JavaPlugin plugin, String code, String filePath) {
+        loadTranslations(plugin, java.util.Locale.forLanguageTag(code), filePath);
+    }
 
     /**
      * Loads translations for the specified plugin by looping over every {@code .properties}
@@ -29,8 +43,19 @@ public interface TranslationService extends Service {
      *
      * @param plugin the plugin to load translations for
      * @param directoryPath the directory path to load the translations files from
+     * @deprecated not yet implemented, will do nothing
      */
+    @Deprecated
     void loadTranslationsFromDirectory(JavaPlugin plugin, String directoryPath);
+
+    /**
+     * Returns an optional locale with the specified code,
+     * empty if no locale with matching code exists.
+     *
+     * @param locale the locale to retrieve
+     * @return an optional locale with the specified code
+     */
+    Optional<Locale> getLocale(java.util.Locale locale);
 
     /**
      * Returns an optional locale with the specified code,
@@ -38,12 +63,16 @@ public interface TranslationService extends Service {
      *
      * @param code the code for the locale to retrieve
      * @return an optional locale with the specified code
+     * @deprecated use a java locale instead of a code
      */
-    Optional<Locale> getLocale(String code);
+    @Deprecated
+    default Optional<Locale> getLocale(String code) {
+        return getLocale(java.util.Locale.forLanguageTag(code));
+    }
 
     /**
      * Returns the default locale.
-     * The default locale is French.
+     * The default locale is French, associated to {@code java.util.Locale.FRANCE}.
      *
      * @return the default locale
      */

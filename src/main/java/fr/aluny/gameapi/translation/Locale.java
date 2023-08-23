@@ -43,8 +43,16 @@ public interface Locale {
     boolean hasTranslation(String key);
 
     /**
-     * Returns the code for the locale.
-     * Examples: {@code fr-fr}, {@code en-us}.
+     * Returns the java {@link java.util.Locale} associated with
+     * this locale.
+     *
+     * @return the java locale
+     */
+    java.util.Locale getJavaLocale();
+
+    /**
+     * Returns the code/tag for the locale.
+     * Examples: {@code fr-FR}, {@code en-US}.
      *
      * @return the code for the locale
      */
