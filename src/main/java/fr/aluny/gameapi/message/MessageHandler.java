@@ -20,14 +20,6 @@ public interface MessageHandler {
     void sendMessage(String key, TagResolver... arguments);
 
     /**
-     * @deprecated use {@link #sendMessage(String, TagResolver...)}
-     */
-    @Deprecated
-    default void sendComponentMessage(String key, TagResolver... arguments) {
-        sendMessage(key, arguments);
-    }
-
-    /**
      * Sends a title and subtitle to the player(s) associated with this message handler.
      *
      * @param titleKey the key of the title message to send, can be null
@@ -44,14 +36,32 @@ public interface MessageHandler {
      * Sends a title and subtitle to the player(s) associated with this message handler.
      *
      * @param titleKey the key of the title message to send, can be null
+     * @param messageKey the key of the subtitle message to send, can be null
+     * @param arguments the tag resolver to use for replacing placeholders in the title and in the subtitle, can be null
+     * @param fadeIn the duration for the title to fade in
+     * @param stay the duration for the title to display
+     * @param fadeOut the duration for the title to fade out
+     */
+    default void sendTitle(String titleKey, String messageKey, TagResolver arguments, Duration fadeIn, Duration stay, Duration fadeOut) {
+        sendTitle(titleKey, arguments, messageKey, arguments, fadeIn, stay, fadeOut);
+    }
+
+    /**
+     * Sends a title and subtitle to the player(s) associated with this message handler.
+     *
+     * @param titleKey the key of the title message to send, can be null
      * @param titleArgs the tag resolver to use for replacing placeholders in the title message, can be null
      * @param messageKey the key of the subtitle message to send, can be null
      * @param messageArgs the tag resolver to use for replacing placeholders in the subtitle message, can be null
      * @param fadeIn the duration for the title to fade in, in seconds
      * @param stay the duration for the title to display, in seconds
      * @param fadeOut the duration in for the title to fade out, in seconds
+     * @deprecated use explicit durations instead of constants
      */
-    void sendTitle(String titleKey, TagResolver titleArgs, String messageKey, TagResolver messageArgs, int fadeIn, int stay, int fadeOut);
+    @Deprecated
+    default void sendTitle(String titleKey, TagResolver titleArgs, String messageKey, TagResolver messageArgs, int fadeIn, int stay, int fadeOut) {
+        sendTitle(titleKey, titleArgs, messageKey, messageArgs, Duration.ofSeconds(fadeIn), Duration.ofSeconds(stay), Duration.ofSeconds(fadeOut));
+    }
 
     /**
      * Sends an action bar message with the specified key and tag resolvers to the player(s) associated with this message handler.
