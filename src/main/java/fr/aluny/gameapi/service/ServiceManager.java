@@ -2,6 +2,7 @@ package fr.aluny.gameapi.service;
 
 import fr.aluny.gameapi.chat.ChatService;
 import fr.aluny.gameapi.command.CommandService;
+import fr.aluny.gameapi.item.ItemService;
 import fr.aluny.gameapi.message.MessageService;
 import fr.aluny.gameapi.moderation.ModerationService;
 import fr.aluny.gameapi.moderation.VanishService;
@@ -28,6 +29,8 @@ public interface ServiceManager {
     CommandService getCommandService();
 
     GamePlayerService getGamePlayerService();
+
+    ItemService getItemService();
 
     LootModifierService getLootModifierService();
 
